@@ -1,2 +1,1 @@
-import { PageConifg } from '../wetype';
-export declare function PageDeco(pageConfig: PageConifg): (constr: any) => void;
+export declare function PageDeco(pageConfig: wxLib.PageConifg): (constr: any) => void;

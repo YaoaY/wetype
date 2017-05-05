@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const wetype_1 = require("../wetype");
 function PageDeco(pageConfig) {
     return function (constr) {
         let proto = constr.prototype;
@@ -27,7 +26,7 @@ function PageDeco(pageConfig) {
                 }
                 Object.defineProperties(this, properties);
             };
-            wetype_1.Page(instance);
+            Page(instance);
         }
     };
 }

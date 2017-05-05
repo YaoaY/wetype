@@ -1,6 +1,4 @@
-import { Page, PageConifg } from '../wetype'
-
-export function PageDeco(pageConfig: PageConifg) {
+export function PageDeco(pageConfig: wxLib.PageConifg) {
     return function (constr) {
         let proto = constr.prototype
         if (typeof process !== 'undefined') {
