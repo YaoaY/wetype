@@ -1,7 +1,7 @@
-declare function App(arg: wxLib.AppMethods): void
-declare const Page: (arg: wxLib.PageMethods) => void
+export declare function App(arg: wxLib.AppMethods): void
+export declare const Page: (arg: wxLib.PageMethods) => void
 
-declare module wxLib {
+export declare module wxLib {
     const createAppConfig: (arg: AppConfig) => void
     const createPageConfig: (arg: PageConifg) => void
     function getApp(any): any

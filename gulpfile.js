@@ -3,10 +3,10 @@ const shell = require('gulp-shell')
 const concat = require('gulp-concat')
 const shell2 = require('shelljs')
 
-gulp.task('clean', () => {
-  return gulp.src('package.json', { read: false })
-  .pipe(shell('rm -rf dist'))
-})
+// gulp.task('clean', () => {
+//   return gulp.src('package.json', { read: false })
+//   .pipe(shell('rm -rf dist'))
+// })
 
 gulp.task('copyTypings', () => {
   return gulp.src('src/typings/**/*')
@@ -19,13 +19,13 @@ gulp.task('ts', (cb) => {
    cb()
 })
 
-gulp.task('concat', ['ts'], () => {
-  setTimeout(() => {
-    shell2.exec('rm dist/wetype.d.ts')
-    return gulp.src(['./src/typings/wetype.d.ts', './src/wetype.ts'])
-    .pipe(concat('wetype.d.ts'))
-    .pipe(gulp.dest('./dist'))
-  }, 1500)
-})
+// gulp.task('concat', ['ts'], () => {
+//   setTimeout(() => {
+//     shell2.exec('rm dist/wetype.d.ts')
+//     return gulp.src(['./src/typings/wetype.d.ts', './src/wetype.ts'])
+//     .pipe(concat('wetype.d.ts'))
+//     .pipe(gulp.dest('./dist'))
+//   }, 1500)
+// })
 
-gulp.task('default', ['ts'])
+gulp.task('default', ['ts', 'copyTypings'])
