@@ -1,4 +1,7 @@
-export function PageDeco(pageConfig: wxLib.PageConifg) {
+export function PageDeco(
+    pageConfig: wxLib.PageConifg,
+    components?: any[]
+) {
     return function (constr) {
         let proto = constr.prototype
         if (typeof process !== 'undefined') {
