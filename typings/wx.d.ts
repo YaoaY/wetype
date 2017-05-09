@@ -1,7 +1,4 @@
 // Type definitions for weapp v0.13.140600
-declare interface global {
-    wx?: any
-}
 /**
  * App 实现的接口对象
  */
@@ -31,7 +28,7 @@ declare interface IApp {
 /**
  * App() 函数用来注册一个小程序。接受一个 object 参数，其指定小程序的生命周期函数等。
  */
-// declare function App(app: IApp): void;
+declare function App(app: IApp): void;
 
 /**
  * 获取小程序实例
@@ -106,13 +103,13 @@ declare interface IPage {
  * Page() 函数用来注册一个页面。
  * 接受一个 object 参数，其指定页面的初始数据、生命周期函数、事件处理函数等。
  */
-// declare function Page(page: IPage): void;
+declare function Page(page: IPage): void;
 
 /**
  * getCurrentPages() 函数用于获取当前页面栈的实例，
  * 以数组形式按栈的顺序给出，第一个元素为首页，最后一个元素为当前页面。
  */
-// declare function getCurrentPages(): IPage[];
+declare function getCurrentPages(): IPage[];
 
 declare namespace wx {
 

@@ -1,4 +1,8 @@
 export declare const wt: {
+    App: (app: IApp) => void;
+    Page: (page: IPage) => void;
+    getCurrentPages: () => IPage[];
+    getApp: () => IApp;
     request: (opts: wx.RequestOptions) => Promise<wx.RequestResult>;
     chooseImage: (opts: wx.ChooseImageOptions) => Promise<wx.ChooseImageResult>;
     previewImage: (opts: wx.PreviewImageOptions) => Promise<any>;

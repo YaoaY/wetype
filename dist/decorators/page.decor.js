@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const wx_1 = require("../lib/wx");
 function PageDeco(pageConfig) {
     return function (constr) {
         let proto = constr.prototype;
@@ -26,7 +27,7 @@ function PageDeco(pageConfig) {
                 }
                 Object.defineProperties(this, properties);
             };
-            Page(instance);
+            wx_1.wt.Page(instance);
         }
     };
 }

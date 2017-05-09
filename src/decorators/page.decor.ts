@@ -1,5 +1,8 @@
+import { wxLib } from '../../typings/wetype'
+import { wt } from '../lib/wx'
+
 export function PageDeco(pageConfig: wxLib.PageConifg) {
-    return function (constr) {
+    return function(constr) {
         let proto = constr.prototype
         if (typeof process !== 'undefined') {
             proto.pageConfig = pageConfig
@@ -9,7 +12,7 @@ export function PageDeco(pageConfig: wxLib.PageConifg) {
             Object.assign(instance, methods)
             delete instance.methods
             let onLoad = instance.onLoad
-            instance.onLoad = function () {
+            instance.onLoad = function() {
                 onLoad.call(this)
                 let keys = Object.keys(data)
                 let properties = {}
@@ -23,7 +26,7 @@ export function PageDeco(pageConfig: wxLib.PageConifg) {
                 }
                 Object.defineProperties(this, properties)
             }
-            Page(instance)
+            wt.Page(instance)
         }
     }
 }

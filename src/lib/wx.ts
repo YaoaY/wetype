@@ -11,6 +11,14 @@ globalAny && (globalAny.wx = {})
 
 export const wt = {
 
+    App,
+
+    Page,
+
+    getCurrentPages,
+
+    getApp,
+
     request: (opts: wx.RequestOptions): Promise<wx.RequestResult> => promiseFactory(opts, wx.request),
 
     chooseImage: (opts: wx.ChooseImageOptions): Promise<wx.ChooseImageResult> => promiseFactory(opts, wx.chooseImage),

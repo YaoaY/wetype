@@ -1,16 +1,6 @@
-declare function App(arg: wxLib.AppMethods): void
-declare const Page: (arg: wxLib.PageMethods) => void
-declare const createPageConfig: (arg: wxLib.PageConifg) => void
-declare const createAppConfig: (arg: wxLib.AppConfig) => void
-declare const getCurrentPages: () => any[]
-
-declare module wxLib {
-    export function getApp(any): any
-    export interface Wx {
-
-    }
-
-    export interface AppMethods {
+export declare namespace wxLib {
+    
+    interface AppMethods {
         onLauch?: () => void,
         onShow?: () => void,
         onHide?: () => void,
@@ -18,7 +8,7 @@ declare module wxLib {
         globalData?: any
     }
 
-    export interface AppClass {
+    interface AppClass {
         globalData;
         onLauch?();
         onShow?();
@@ -26,7 +16,7 @@ declare module wxLib {
         onError?();
     }
 
-    export interface PageMethods {
+    interface PageMethods {
         data: any,
         onLoad?: () => void | Promise<any>,
         onReady?: () => void | Promise<any>,
@@ -41,12 +31,12 @@ declare module wxLib {
         }
     }
 
-    export interface ShareAppMessage {
+    interface ShareAppMessage {
         title: string,
         path: string
     }
 
-    export interface AppConfig {
+    interface AppConfig {
         pages: string[],
         window: {
             navigationBarTitleText: string,
@@ -73,14 +63,14 @@ declare module wxLib {
         debug?: Boolean
     }
 
-    export interface TabbarList {
+    interface TabbarList {
         pagePath: string,
         text: string,
         iconPath: string,
         selectedIconPath: string
     }
 
-    export interface PageConifg {
+    interface PageConifg {
         navigationBarBackgroundColor?: string,
         navigationBarTextStyle?: 'black' | 'white',
         navigationBarTitleText?: string,
@@ -90,3 +80,4 @@ declare module wxLib {
         disableScroll?: Boolean
     }
 }
+
