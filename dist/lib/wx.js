@@ -7,6 +7,11 @@ function promiseFactory(options, func) {
         func(options);
     });
 }
+const globalAny = global;
+if (globalAny) {
+    /**disable tslint */
+    globalAny.wx = {};
+}
 exports.wt = {
     request: (opts) => promiseFactory(opts, wx.request),
     chooseImage: (opts) => promiseFactory(opts, wx.chooseImage),

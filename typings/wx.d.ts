@@ -1,5 +1,7 @@
 // Type definitions for weapp v0.13.140600
-
+declare interface global {
+    wx?: any
+}
 /**
  * App 实现的接口对象
  */

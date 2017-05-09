@@ -6,6 +6,9 @@ function promiseFactory(options, func) {
     })
 }
 
+const globalAny: any = global
+globalAny && (globalAny.wx = {})
+
 export const wt = {
 
     request: (opts: wx.RequestOptions): Promise<wx.RequestResult> => promiseFactory(opts, wx.request),
@@ -68,7 +71,7 @@ export const wt = {
 
     // wx.hideLoading: 
 
-    showModal: (opts: wx.ShowModalOptions): Promise<wx.ShowModalResult> => promiseFactory(opts, wx.showModal), 
+    showModal: (opts: wx.ShowModalOptions): Promise<wx.ShowModalResult> => promiseFactory(opts, wx.showModal),
 
     showActionSheet: (opts: wx.ShowActionSheetOptions): Promise<wx.ShowActionSheetResult> => promiseFactory(opts, wx.showActionSheet),
 
