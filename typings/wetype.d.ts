@@ -36,21 +36,23 @@ export declare namespace wxLib {
         path: string
     }
 
+    type BlackOrWhite = 'black' | 'white'
+
     interface AppConfig {
         pages: string[],
         window: {
             navigationBarTitleText: string,
             navigationBarBackgroundColor?: string,
-            navigationBarTextStyle?: 'white' | 'black',
+            navigationBarTextStyle?: BlackOrWhite,
             backgroundColor?: string,
-            backgroundTextStyle?: 'dark' | 'light',
+            backgroundTextStyle?: string,
             enablePullDownRefresh?: Boolean
         },
         tabBar: {
             color: string,
             selectedColor: string,
             backgroundColor: string,
-            borderStyle?: 'black' | 'white',
+            borderStyle?: BlackOrWhite,
             list: TabbarList[],
             position?: 'top' | 'bottom'
         },
@@ -66,13 +68,13 @@ export declare namespace wxLib {
     interface TabbarList {
         pagePath: string,
         text: string,
-        iconPath: string,
-        selectedIconPath: string
+        iconPath?: string,
+        selectedIconPath?: string
     }
 
     interface PageConifg {
         navigationBarBackgroundColor?: string,
-        navigationBarTextStyle?: 'black' | 'white',
+        navigationBarTextStyle?: BlackOrWhite,
         navigationBarTitleText?: string,
         backgroundColor?: string,
         backgroundTextStyle?: string,
