@@ -1,6 +1,7 @@
+import { wx, IPage, IApp } from '../../typings/wx';
 export declare const wt: {
-    App: (app: IApp) => void;
-    Page: (page: IPage) => void;
+    App: (opts: IApp) => (app: IApp) => void;
+    Page: (opts: IPage) => (page: IPage) => void;
     getCurrentPages: () => IPage[];
     getApp: () => IApp;
     request: (opts: wx.RequestOptions) => Promise<wx.RequestResult>;

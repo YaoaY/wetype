@@ -2,7 +2,7 @@
 /**
  * App 实现的接口对象
  */
-declare interface IApp {
+export declare interface IApp {
 
     /**
      * 生命周期函数--监听小程序初始化。当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
@@ -28,17 +28,17 @@ declare interface IApp {
 /**
  * App() 函数用来注册一个小程序。接受一个 object 参数，其指定小程序的生命周期函数等。
  */
-declare function App(app: IApp): void;
+export declare function App(app: IApp): void;
 
 /**
  * 获取小程序实例
  */
-declare function getApp(): IApp;
+export declare function getApp(): IApp;
 
 /**
  * Page 实现的接口对象
  */
-declare interface IPage {
+export declare interface IPage {
 
     /**
      * [read-only]页面的初始数据
@@ -103,15 +103,15 @@ declare interface IPage {
  * Page() 函数用来注册一个页面。
  * 接受一个 object 参数，其指定页面的初始数据、生命周期函数、事件处理函数等。
  */
-declare function Page(page: IPage): void;
+export declare function Page(page: IPage): void;
 
 /**
  * getCurrentPages() 函数用于获取当前页面栈的实例，
  * 以数组形式按栈的顺序给出，第一个元素为首页，最后一个元素为当前页面。
  */
-declare function getCurrentPages(): IPage[];
+export declare function getCurrentPages(): IPage[];
 
-declare namespace wx {
+export declare namespace wx {
 
     export interface BaseOptions {
 

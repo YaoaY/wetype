@@ -1,3 +1,5 @@
+import { wx, App, Page, getCurrentPages, getApp, IPage, IApp } from '../../typings/wx'
+
 function promiseFactory(options, func) {
     return new Promise((resolve, reject) => {
         options.success = resolve
@@ -11,9 +13,9 @@ globalAny && (globalAny.wx = {})
 
 export const wt = {
 
-    App,
+    App: (opts: IApp) => App,
 
-    Page,
+    Page: (opts: IPage) => Page,
 
     getCurrentPages,
 
