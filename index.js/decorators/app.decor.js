@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 function AppDeco(appConfig) {
     return function (constructor) {
         if (typeof process !== 'undefined') {
@@ -11,4 +11,3 @@ function AppDeco(appConfig) {
     };
 }
 exports.AppDeco = AppDeco;
-//# sourceMappingURL=app.decor.js.map

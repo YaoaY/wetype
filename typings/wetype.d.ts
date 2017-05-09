@@ -1,16 +1,16 @@
-export declare function App(arg: wxLib.AppMethods): void
-export declare const Page: (arg: wxLib.PageMethods) => void
+declare function App(arg: wxLib.AppMethods): void
+declare const Page: (arg: wxLib.PageMethods) => void
+declare const createPageConfig: (arg: wxLib.PageConifg) => void
+declare const createAppConfig: (arg: wxLib.AppConfig) => void
+declare const getCurrentPages: () => any[]
 
-export declare module wxLib {
-    const createAppConfig: (arg: AppConfig) => void
-    const createPageConfig: (arg: PageConifg) => void
-    function getApp(any): any
-    const getCurrentPages: () => any[]
-    interface Wx {
+declare module wxLib {
+    export function getApp(any): any
+    export interface Wx {
 
     }
 
-    interface AppMethods {
+    export interface AppMethods {
         onLauch?: () => void,
         onShow?: () => void,
         onHide?: () => void,
@@ -18,7 +18,7 @@ export declare module wxLib {
         globalData?: any
     }
 
-    interface AppClass {
+    export interface AppClass {
         globalData;
         onLauch?();
         onShow?();
@@ -26,7 +26,7 @@ export declare module wxLib {
         onError?();
     }
 
-    interface PageMethods {
+    export interface PageMethods {
         data: any,
         onLoad?: () => void | Promise<any>,
         onReady?: () => void | Promise<any>,
@@ -41,12 +41,12 @@ export declare module wxLib {
         }
     }
 
-    interface ShareAppMessage {
+    export interface ShareAppMessage {
         title: string,
         path: string
     }
 
-    interface AppConfig {
+    export interface AppConfig {
         pages: string[],
         window: {
             navigationBarTitleText: string,
@@ -73,14 +73,14 @@ export declare module wxLib {
         debug?: Boolean
     }
 
-    interface TabbarList {
+    export interface TabbarList {
         pagePath: string,
         text: string,
         iconPath: string,
         selectedIconPath: string
     }
 
-    interface PageConifg {
+    export interface PageConifg {
         navigationBarBackgroundColor?: string,
         navigationBarTextStyle?: 'black' | 'white',
         navigationBarTitleText?: string,
@@ -90,4 +90,3 @@ export declare module wxLib {
         disableScroll?: Boolean
     }
 }
-

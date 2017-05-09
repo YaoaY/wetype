@@ -1,5 +1,3 @@
-import { wxLib, Page } from '../typings/wetype'
-
 export function PageDeco(pageConfig: wxLib.PageConifg) {
     return function (constr) {
         let proto = constr.prototype

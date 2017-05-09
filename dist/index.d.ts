@@ -1,3 +1,3 @@
-export * from './typings/wetype'
-export * from './typings/wx'
-export * from './wetype'
+export * from './decorators/app.decor';
+export * from './decorators/page.decor';
+export * from './lib/wx';

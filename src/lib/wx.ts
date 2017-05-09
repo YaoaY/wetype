@@ -1,5 +1,3 @@
-import { wx } from '../typings/wx'
-
 function promiseFactory(options, func) {
     return new Promise((resolve, reject) => {
         options.success = resolve

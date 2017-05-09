@@ -16,6 +16,7 @@ gulp.task('copyTypings', () => {
 gulp.task('ts', (cb) => {
    gulp.src('package.json', { read: false })
    .pipe(shell('tsc'))
+   .pipe(shell(`tsc src/index.ts --outDir index.js -d --typeRoots ['typings']`))
    cb()
 })
 

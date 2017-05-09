@@ -1,4 +1,3 @@
-import { wx } from '../typings/wx';
 export declare const wt: {
     request: (opts: wx.RequestOptions) => Promise<wx.RequestResult>;
     chooseImage: (opts: wx.ChooseImageOptions) => Promise<wx.ChooseImageResult>;

@@ -112,7 +112,7 @@ declare interface IPage {
  */
 // declare function getCurrentPages(): IPage[];
 
-export declare namespace wx {
+declare namespace wx {
 
     export interface BaseOptions {
 
