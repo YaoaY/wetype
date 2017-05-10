@@ -1,7 +1,10 @@
 import { wxLib } from '../../typings/wetype'
 import { wt } from '../lib/wx'
 
-export function PageDeco(pageConfig: wxLib.PageConifg) {
+export function PageDeco(
+    pageConfig: wxLib.PageConifg,
+    templateUrls: string[]
+) {
     return function(constr) {
         let proto = constr.prototype
         if (typeof process !== 'undefined') {

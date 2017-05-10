@@ -81,5 +81,7 @@ export declare namespace wxLib {
         enablePullDownRefresh?: Boolean,
         disableScroll?: Boolean
     }
+
+    type ComponentName = string
 }
 

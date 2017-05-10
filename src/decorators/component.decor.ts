@@ -1,4 +1,6 @@
-export function ComponentDecor() {
+import { wxLib } from '../../typings/wetype'
+
+export function ComponentDecor(componentsName: wxLib.ComponentName[]) {
     return function (target) {
         let { name } = target.prototype.constructor
         let instance = new target
