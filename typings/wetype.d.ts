@@ -1,15 +1,5 @@
-declare function App(arg: wxLib.AppMethods): void
-declare const Page: (arg: wxLib.PageMethods) => void
-
-declare module wxLib {
-    const createAppConfig: (arg: AppConfig) => void
-    const createPageConfig: (arg: PageConifg) => void
-    function getApp(any): any
-    const getCurrentPages: () => any[]
-    interface Wx {
-
-    }
-
+export declare namespace wxLib {
+    
     interface AppMethods {
         onLauch?: () => void,
         onShow?: () => void,
@@ -46,21 +36,23 @@ declare module wxLib {
         path: string
     }
 
+    type BlackOrWhite = 'black' | 'white'
+
     interface AppConfig {
         pages: string[],
         window: {
             navigationBarTitleText: string,
             navigationBarBackgroundColor?: string,
-            navigationBarTextStyle?: 'white' | 'black',
+            navigationBarTextStyle?: BlackOrWhite,
             backgroundColor?: string,
-            backgroundTextStyle?: 'dark' | 'light',
+            backgroundTextStyle?: string,
             enablePullDownRefresh?: Boolean
         },
         tabBar: {
             color: string,
             selectedColor: string,
             backgroundColor: string,
-            borderStyle?: 'black' | 'white',
+            borderStyle?: BlackOrWhite,
             list: TabbarList[],
             position?: 'top' | 'bottom'
         },
@@ -76,13 +68,13 @@ declare module wxLib {
     interface TabbarList {
         pagePath: string,
         text: string,
-        iconPath: string,
-        selectedIconPath: string
+        iconPath?: string,
+        selectedIconPath?: string
     }
 
     interface PageConifg {
         navigationBarBackgroundColor?: string,
-        navigationBarTextStyle?: 'black' | 'white',
+        navigationBarTextStyle?: BlackOrWhite,
         navigationBarTitleText?: string,
         backgroundColor?: string,
         backgroundTextStyle?: string,

@@ -1,129 +1,114 @@
-import { IPage, IApp } from '../../typings/wx'
+// Type definitions for weapp v0.13.140600
+/**
+ * App 实现的接口对象
+ */
+export declare interface IApp {
 
-function promiseFactory(options, func) {
-    return new Promise((resolve, reject) => {
-        options.success = resolve
-        options.fail = reject
-        func(options)
-    })
+    /**
+     * 生命周期函数--监听小程序初始化。当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
+     */
+    onLaunch?: () => void;
+
+    /**
+     * 生命周期函数--监听小程序显示。当小程序启动，或从后台进入前台显示，会触发 onShow
+     */
+    onShow?: () => void;
+
+    /**
+     * 生命周期函数--监听小程序隐藏。当小程序从前台进入后台，会触发 onHide
+     */
+    onHide?: () => void;
+
+    /**
+     * 错误监听函数--当小程序发生脚本错误，或者 api 调用失败时，会触发 onError 并带上错误信息
+     */
+    onError?: (msg: string) => void;
 }
 
-const globalAny: any = global
-if (typeof globalAny !== 'undefined') {
-    globalAny.wx = {}
-    globalAny.App = new Function
-    globalAny.Page = new Function
-    globalAny.getCurrentPages = new Function
-    globalAny.getApp = new Function
-}
-
-export const wt = {
-
-    App,
-
-    Page,
-
-    getCurrentPages,
-
-    getApp,
-
-    request: (opts: wx.RequestOptions): Promise<wx.RequestResult> => promiseFactory(opts, wx.request),
-
-    chooseImage: (opts: wx.ChooseImageOptions): Promise<wx.ChooseImageResult> => promiseFactory(opts, wx.chooseImage),
-
-    previewImage: (opts: wx.PreviewImageOptions): Promise<any> => promiseFactory(opts, wx.previewImage),
-
-    getImageInfo: (opts: wx.GetImageInfoOptions): Promise<wx.GetImageInfoResult> => promiseFactory(opts, wx.getImageInfo),
-
-    saveFile: (opts: wx.SaveFileOptions): Promise<wx.SaveFileResult> => promiseFactory(opts, wx.saveFile),
-
-    getSavedFileList: (opts: wx.GetSavedFileListOptions): Promise<wx.GetSavedFileListResult> => promiseFactory(opts, wx.getSavedFileList),
-
-    getSavedFileInfo: (opts: wx.GetSavedFileInfoOptions): Promise<wx.GetSavedFileInfoResult> => promiseFactory(opts, wx.getSavedFileInfo),
-
-    removeSavedFile: (opts: wx.RemoveSavedFileOptions): Promise<any> => promiseFactory(opts, wx.removeSavedFile),
-
-    openDocument: (opts: wx.OpenDocumentOptions): Promise<any> => promiseFactory(opts, wx.openDocument),
-
-    setStorage: (opts: wx.SetStorageOptions): Promise<any> => promiseFactory(opts, wx.setStorage),
-
-    getStorage: (opts: wx.GetStorageOptions): Promise<wx.GetStorageResult> => promiseFactory(opts, wx.getStorage),
-
-    getStorageInfo: (opts: wx.GetStorageInfoOptions): Promise<wx.GetStorageInfoResult> => promiseFactory(opts, wx.getStorageInfo),
-
-    removeStorage: (opts: wx.RemoveStorageOptions): Promise<any> => promiseFactory(opts, wx.removeStorage),
-
-    clearStorage: wx.clearStorage,
-
-    getLocation: (opts: wx.GetLocationOptions): Promise<wx.GetLocationResult> => promiseFactory(opts, wx.getLocation),
-
-    chooseLocation: (opts: wx.ChooseLocationOptions): Promise<wx.ChooseLocationResult> => promiseFactory(opts, wx.chooseLocation),
-
-    openLocation: (opts: wx.OpenLocationOptions): Promise<any> => promiseFactory(opts, wx.openLocation),
-
-    createMapContext: wx.createMapContext,
-
-    getSystemInfo: (opts: wx.GetSystemInfoOptions): Promise<wx.GetSystemInfoResult> => promiseFactory(opts, wx.getSystemInfo),
-
-    // canIUse: 
-
-    getNetworkType: (opts: wx.GetNetworkTypeOptions): Promise<wx.GetNetworkTypeResult> => promiseFactory(opts, wx.getNetworkType),
-
-    // onNetWorkStatusChange: wx.onne
-
-    makePhoneCall: (opts: wx.MakePhoneCallOptions): Promise<any> => promiseFactory(opts, wx.makePhoneCall),
-
-    scanCode: (opts: wx.ScanCodeOptions): Promise<wx.ScanCodeOptions> => promiseFactory(opts, wx.scanCode),
-
-    setClipboardData: (opts: wx.SetClipboardDataOptions): Promise<any> => promiseFactory(opts, wx.setClipboardData),
-
-    getClipboardData: (opts: wx.GetClipboardDataOptions): Promise<wx.GetClipboardDataResult> => promiseFactory(opts, wx.getClipboardData),
-
-    showToast: (opts: wx.ShowToastOptions): Promise<any> => promiseFactory(opts, wx.showToast),
-
-    // showLoading: (opts: wx.showlo)
-
-    hideToast: wx.hideToast,
-
-    // wx.hideLoading: 
-
-    showModal: (opts: wx.ShowModalOptions): Promise<wx.ShowModalResult> => promiseFactory(opts, wx.showModal),
-
-    showActionSheet: (opts: wx.ShowActionSheetOptions): Promise<wx.ShowActionSheetResult> => promiseFactory(opts, wx.showActionSheet),
-
-    setNavigationBarTitle: (opts: wx.SetNavigationBarTitleOptions): Promise<any> => promiseFactory(opts, wx.setNavigationBarTitle),
-
-    showNavigationBarLoading: wx.showNavigationBarLoading,
-
-    hideNavigationBarLoading: wx.hideNavigationBarLoading,
-
-    navigateTo: (opts: wx.NavigateToOptions): Promise<any> => promiseFactory(opts, wx.navigateTo),
-
-    redirectTo: (opts: wx.RedirectToOptions): Promise<any> => promiseFactory(opts, wx.redirectTo),
-
-    switchTab: (opts: wx.SwitchTabOptions): Promise<any> => promiseFactory(opts, wx.switchTab),
-
-    navigateBack: (opts: wx.NavigateBackOptions): Promise<any> => promiseFactory(opts, wx.navigateBack),
-
-    // reLaunch: (opts: wx.relo)
-
-    stopPullDownRefresh: wx.stopPullDownRefresh,
-
-    login: (opts: wx.LoginOptions): Promise<wx.LoginResult> => promiseFactory(opts, wx.login),
-
-    checkSession: (opts: wx.CheckSessionOptions): Promise<any> => promiseFactory(opts, wx.checkSession),
-
-    getUserInfo: (opts: wx.GetUserInfoOptions): Promise<any> => promiseFactory(opts, wx.getUserInfo),
-
-    requestPayment: (opts: wx.RequestPaymentOptions): Promise<any> => promiseFactory(opts, wx.requestPayment)
-
-}
-export declare function Page(page: IPage): void;
-
+/**
+ * App() 函数用来注册一个小程序。接受一个 object 参数，其指定小程序的生命周期函数等。
+ */
 export declare function App(app: IApp): void;
 
+/**
+ * 获取小程序实例
+ */
 export declare function getApp(): IApp;
 
+/**
+ * Page 实现的接口对象
+ */
+export declare interface IPage {
+
+    /**
+     * [read-only]页面的初始数据
+     */
+    data?: any;
+
+    /**
+     * 生命周期函数--监听页面加载
+     * @param options 接收页面参数可以获取wx.navigateTo和wx.redirectTo及<navigator/>中的 query
+     */
+    onLoad?: (options?: wx.IData) => void;
+
+    /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady?: () => void;
+
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow?: () => void;
+
+    /**
+     * 生命周期函数--监听页面隐藏
+     */
+    onHide?: () => void;
+
+    /**
+     * 生命周期函数--监听页面卸载
+     */
+    onUnload?: () => void;
+
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh?: () => void;
+
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom?: () => void;
+
+    onShareAppMessage?: () => wx.ShareOptions;
+
+    /**
+     * 将数据从逻辑层发送到视图层，同时改变对应的 this.data 的值
+     */
+    setData?: (data: any) => void;
+
+    /**
+     * 强制更新
+     */
+    forceUpdate?: () => void;
+
+    /**
+     * 更新
+     */
+    update?: () => void;
+}
+
+/**
+ * Page() 函数用来注册一个页面。
+ * 接受一个 object 参数，其指定页面的初始数据、生命周期函数、事件处理函数等。
+ */
+export declare function Page(page: IPage): void;
+
+/**
+ * getCurrentPages() 函数用于获取当前页面栈的实例，
+ * 以数组形式按栈的顺序给出，第一个元素为首页，最后一个元素为当前页面。
+ */
 export declare function getCurrentPages(): IPage[];
 
 export declare namespace wx {
