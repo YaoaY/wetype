@@ -9,15 +9,18 @@ export function ComponentDecor(
         let { methods, data } = instance
         let keys = Object.keys(data)
         let newData = {}
+        let newMethods = {}
         keys.forEach(key => {
             newData[`$${name}$${key}`] = data[key]
         })
-        Object.assign(instance, methods)
-        delete instance.methods
+        Object.keys(methods).forEach(key => {
+            newData[`$${name}$${key}`] = methods[key]
+        })
+        instance.methods = newMethods
         return {
             name,
             data: newData,
-            instance,
+            instance
         }
     }
 }
