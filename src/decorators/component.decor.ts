@@ -2,7 +2,7 @@ import { wxLib } from '../../typings/wetype'
 import { getRandom, getKeys } from '../lib/util'
 
 export function ComponentDecor(
-    componentsName: wxLib.ComponentName[]
+    components: wxLib.Component[]
 ) {
     return function (target): wxLib.Component {
         let name = target.prototype.constructor.name || `$id$${getRandom()}`
