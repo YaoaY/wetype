@@ -1,5 +1,6 @@
 import { wxLib } from '../../typings/wetype'
 import { wt } from '../lib/wx'
+import { assign, getKeys } from '../lib/util'
 
 export function PageDecor(pageDecoConfig: wxLib.PageDecoConfig) {
     return function(constr: wxLib.PageConstructor) {
@@ -13,17 +14,17 @@ export function PageDecor(pageDecoConfig: wxLib.PageDecoConfig) {
             let componentsParsed = handleComponents(pageDecoConfig.components)
             let { methods } = instance
             // assign components' data to instance's data
-            Object.assign(instance.data, componentsParsed.data)
+            assign(instance.data, componentsParsed.data)
             // assign page's methods to instance
-            Object.assign(instance, methods)
+            assign(instance, methods)
             // assgin components' methods to instance
-            Object.assign(instance, componentsParsed.methods)
+            assign(instance, componentsParsed.methods)
             // delelte the methods property on instance
             delete instance.methods
             let { onLoad, onShow, onHide, onUnload } = instance
             // rewrite instance's onLoad method
             instance.onLoad = function() {
-                let keys = Object.keys(instance.data)
+                let keys = getKeys(instance.data)
                 // call components' onLoad methods first
                 componentsParsed.onLoad.call(this)
                 // call page' s onLoad method
@@ -81,8 +82,8 @@ function handleComponents (
     let methods = {}
     let instances = components.map(com => {
         let { data, instance } = com
-        Object.assign(comData, data)
-        Object.assign(methods, instance.methods)
+        assign(comData, data)
+        assign(methods, instance.methods)
         delete instance.methods
         return instance
     })

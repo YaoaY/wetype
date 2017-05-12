@@ -1,5 +1,5 @@
 import { wxLib } from '../../typings/wetype'
-import { getRandom } from '../lib/util'
+import { getRandom, getKeys } from '../lib/util'
 
 export function ComponentDecor(
     componentsName: wxLib.ComponentName[]
@@ -10,10 +10,10 @@ export function ComponentDecor(
         let { methods, data } = instance
         let newData = {}
         let newMethods = {}
-        Object.keys(data).forEach(key => {
+        getKeys(data).forEach(key => {
             newData[`$${name}$${key}`] = data[key]
         })
-        Object.keys(methods).forEach(key => {
+        getKeys(methods).forEach(key => {
             newData[`$${name}$${key}`] = methods[key]
         })
         instance.methods = newMethods
