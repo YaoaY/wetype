@@ -1,7 +1,9 @@
 import { wxLib } from '../../typings/wetype'
 
-export function ComponentDecor(componentsName: wxLib.ComponentName[]) {
-    return function (target) {
+export function ComponentDecor(
+    componentsName: wxLib.ComponentName[]
+) {
+    return function (target): wxLib.Component {
         let { name } = target.prototype.constructor
         let instance = new target
         let { methods, data } = instance
@@ -13,8 +15,9 @@ export function ComponentDecor(componentsName: wxLib.ComponentName[]) {
         Object.assign(instance, methods)
         delete instance.methods
         return {
+            name,
             data: newData,
-            instance
+            instance,
         }
     }
 }

@@ -1,5 +1,5 @@
 export declare namespace wxLib {
-    
+
     interface AppMethods {
         onLauch?: () => void,
         onShow?: () => void,
@@ -17,6 +17,21 @@ export declare namespace wxLib {
     }
 
     interface PageMethods {
+        data: any,
+        onLoad?: () => void | Promise<any>,
+        onReady?: () => void | Promise<any>,
+        onShow?: () => void | Promise<any>,
+        onHide?: () => void | Promise<any>,
+        onUnload?: () => void | Promise<any>,
+        onPullDownRefresh?: () => void | Promise<any>,
+        onReachBottom?: () => void | Promise<any>,
+        onShareAppMessae?: () => ShareAppMessage,
+        methods?: {
+            [eventHandler: string]: any
+        }
+    }
+
+    interface ComponentMethods {
         data: any,
         onLoad?: () => void | Promise<any>,
         onReady?: () => void | Promise<any>,
@@ -83,5 +98,20 @@ export declare namespace wxLib {
     }
 
     type ComponentName = string
+
+    interface Component {
+        name: string,
+        data: any,
+        instance: ComponentMethods
+    }
+
+    interface PageDecoConfig {
+        pageConfig: wxLib.PageConifg,
+        components?: Component[]
+    }
+
+    interface PageConstructor {
+        new (): PageMethods
+    }
 }
 
