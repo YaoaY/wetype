@@ -1,5 +1,6 @@
 import { wxLib } from '../../typings/wetype'
 import { getRandom, getKeys } from '../lib/util'
+import xstream from 'xstream'
 
 export function ComponentDecor(
     componentsName: wxLib.ComponentName[]
