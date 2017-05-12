@@ -113,5 +113,40 @@ export declare namespace wxLib {
     interface PageConstructor {
         new (): PageMethods
     }
+
+    interface TapEvent {
+        type: 'tap',
+        timestamp: number,
+        target: {
+            id: string,
+            dataset: {
+                [datasetname: string]: string
+            }
+        },
+        currentTarget: {
+            id: string,
+            dataset: {
+                [datasetname: string]: string
+            }
+        },
+        detail: {
+            x: number,
+            y: number
+        },
+        touches: {
+            identifier: number,
+            pageX: number,
+            pageY: number,
+            clientX: number,
+            clientY: number
+        }[],
+        changedTouches: {
+            identifier: number,
+            pageX: number,
+            pageY: number,
+            clientX: number,
+            clientY: number
+        }[]
+    }
 }
 
