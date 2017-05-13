@@ -41,18 +41,18 @@ export declare namespace wxLib {
         onHide?(): any,
         onUnload?(): any,
         onReachBottom?(): any,
-        [eventHandler: string]: any
+        methods: any
     }
 
     interface ComponentParsed {
         data: any,
-        handlers: {
-            onLoad?(): any,
-            onReady?(): any,
-            onShow?(): any,
-            onHide?(): any,
-            onUnload?(): any,
-            onReachBottom?(): any,
+        onLoad?(): any,
+        onReady?(): any,
+        onShow?(): any,
+        onHide?(): any,
+        onUnload?(): any,
+        onReachBottom?(): any,
+        methods: {
             [eventHandler: string]: any
         }
     }
