@@ -5,5 +5,6 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./decorators/app.decor"));
 __export(require("./decorators/page.decor"));
+__export(require("./decorators/component.decor"));
 __export(require("./lib/wx"));
 //# sourceMappingURL=index.js.map

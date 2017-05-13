@@ -1,2 +1,2 @@
 import { wxLib } from '../../typings/wetype';
-export declare function PageDeco(pageConfig: wxLib.PageConifg): (constr: any) => void;
+export declare function PageDecor(pageDecoConfig: wxLib.PageDecoConfig): (constr: wxLib.PageConstructor) => void;

@@ -1,32 +1,21 @@
-import { assign, getKeys } from '../lib/util'
+import { assign } from '../lib/util'
 import { wxLib } from '../../typings/wetype'
 
-export interface ComponentsParsed {
-    data: any,
-    methods: {
-        [methods: string]: () => any
-    },
-    onLoad: () => void,
-    onShow: () => void,
-    onHide: () => void,
-    onUnload: () => void
-}
-
 export function handleComponents (
-    components: wxLib.Component[] | undefined
-): ComponentsParsed {
+    components: wxLib.ComponentConstructor[] | undefined
+): wxLib.ComponentMethods {
     components = components || []
-    let comData = {}
+    let data = {}
     let methods = {}
     let instances = components.map(com => {
-        let { data, instance } = com
-        assign(comData, data)
+        let instance = com.prototype
+        assign(data, instance.data)
         assign(methods, instance.methods)
         delete instance.methods
         return instance
     })
     return {
-        data: comData,
+        data,
         methods,
         onLoad: () => instances.forEach(ins => ins.onLoad && ins.onLoad()),
         onShow: () => instances.forEach(ins => ins.onShow && ins.onShow()),

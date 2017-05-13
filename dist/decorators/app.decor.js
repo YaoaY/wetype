@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const wx_1 = require("../lib/wx");
-function AppDeco(appConfig) {
+function AppDecor(appConfig) {
     return function (constructor) {
         if (typeof process !== 'undefined') {
             constructor.prototype.appConfig = appConfig;
@@ -11,5 +11,5 @@ function AppDeco(appConfig) {
         }
     };
 }
-exports.AppDeco = AppDeco;
+exports.AppDecor = AppDecor;
 //# sourceMappingURL=app.decor.js.map

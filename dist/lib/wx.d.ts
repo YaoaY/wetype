@@ -1,8 +1,4 @@
 import { IPage, IApp } from '../../typings/wx';
-export declare function Page(page: IPage): void;
-export declare function App(app: IApp): void;
-export declare function getApp(): IApp;
-export declare function getCurrentPages(): IPage[];
 export declare const wt: {
     App: (app: IApp) => void;
     Page: (page: IPage) => void;
@@ -49,6 +45,10 @@ export declare const wt: {
     getUserInfo: (opts: wx.GetUserInfoOptions) => Promise<any>;
     requestPayment: (opts: wx.RequestPaymentOptions) => Promise<any>;
 };
+export declare function Page(page: IPage): void;
+export declare function App(app: IApp): void;
+export declare function getApp(): IApp;
+export declare function getCurrentPages(): IPage[];
 export declare namespace wx {
     interface BaseOptions {
         /**
