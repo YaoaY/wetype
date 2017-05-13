@@ -15,18 +15,18 @@ export function PageDecor(pageDecoConfig: wxLib.PageDecoConfig) {
             data = data || {}
             let componentsParsed = handleComponents(components)
             console.log(componentsParsed)
-            let { methods } = proto
-            methods = methods || {}
+            // let { methods } = proto
+            // methods = methods || {}
             // assign components' data to instance's data
             assign(data, componentsParsed.data)
             // assign page's methods to instance
-            assign(proto, methods)
+            // assign(proto, methods)
             // assgin components' methods to instance
             assign(proto, componentsParsed.methods)
             // assign data to proto.data
             proto.data = data
             // delelte the methods property on instance
-            delete proto.methods
+            // delete proto.methods
             let { onLoad, onShow, onHide, onUnload } = proto
             // rewrite instance's onLoad method
             proto.onLoad = function() {

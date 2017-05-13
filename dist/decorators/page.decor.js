@@ -16,18 +16,18 @@ function PageDecor(pageDecoConfig) {
             data = data || {};
             let componentsParsed = common_1.handleComponents(components);
             console.log(componentsParsed);
-            let { methods } = proto;
-            methods = methods || {};
+            // let { methods } = proto
+            // methods = methods || {}
             // assign components' data to instance's data
             util_1.assign(data, componentsParsed.data);
             // assign page's methods to instance
-            util_1.assign(proto, methods);
+            // assign(proto, methods)
             // assgin components' methods to instance
             util_1.assign(proto, componentsParsed.methods);
             // assign data to proto.data
             proto.data = data;
             // delelte the methods property on instance
-            delete proto.methods;
+            // delete proto.methods
             let { onLoad, onShow, onHide, onUnload } = proto;
             // rewrite instance's onLoad method
             proto.onLoad = function () {
