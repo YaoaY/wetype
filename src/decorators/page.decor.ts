@@ -1,36 +1,36 @@
 import { wxLib } from '../../typings/wetype'
 import { wt } from '../lib/wx'
-import { assign, getKeys } from '../lib/util'
+import { assign, getKeys, inNode } from '../lib/util'
 import { handleComponents } from './common'
 
 export function PageDecor(pageDecoConfig: wxLib.PageDecoConfig) {
-    return function(constr: wxLib.PageConstructor) {
-        let proto = constr.prototype
-        if (typeof process !== 'undefined') {
+    return function(Constr: wxLib.PageConstructor) {
+        let proto = Constr.prototype
+        if (inNode) {
             pageDecoConfig.components = pageDecoConfig.components || []
-            proto.pageConfig = pageDecoConfig.pageConfig
-            proto.components = pageDecoConfig.components.map(com => com.name)
+            Constr.components = pageDecoConfig.components.map(Consr => Consr.name)
+            Constr.config = pageDecoConfig.pageConfig
         } else {
-            let instance = new constr
-            let componentsParsed = handleComponents(pageDecoConfig.components)
-            let { methods } = instance
+            let { data, components } = pageDecoConfig
+            data = data || {}
+            let componentsParsed = handleComponents(components)
+            console.log(componentsParsed)
+            let { methods } = proto
+            methods = methods || {}
             // assign components' data to instance's data
-            assign(instance.data, componentsParsed.data)
+            assign(data, componentsParsed.data)
             // assign page's methods to instance
-            assign(instance, methods)
+            assign(proto, methods)
             // assgin components' methods to instance
-            assign(instance, componentsParsed.methods)
+            assign(proto, componentsParsed.methods)
+            // assign data to proto.data
+            proto.data = data
             // delelte the methods property on instance
-            delete instance.methods
-            let { onLoad, onShow, onHide, onUnload } = instance
+            delete proto.methods
+            let { onLoad, onShow, onHide, onUnload } = proto
             // rewrite instance's onLoad method
-            instance.onLoad = function() {
-                let keys = getKeys(instance.data)
-                // call components' onLoad methods first
-                componentsParsed.onLoad &&
-                componentsParsed.onLoad.call(this)
-                // call page' s onLoad method
-                onLoad && onLoad.call(this)
+            proto.onLoad = function() {
+                let keys = getKeys(proto.data)
                 let properties = {}
                 for (let k of keys) {
                     properties[k] = {
@@ -40,27 +40,32 @@ export function PageDecor(pageDecoConfig: wxLib.PageDecoConfig) {
                 }
                 // observer changes to this.data
                 Object.defineProperties(this, properties)
+                // call components' onLoad methods first
+                componentsParsed.onLoad &&
+                componentsParsed.onLoad.call(this)
+                // call page' s onLoad method
+                onLoad && onLoad.call(this)
             }
-            // rewrite instance's onShow method
-            instance.onShow = function () {
+            // rewrite proto's onShow method
+            proto.onShow = function () {
                 componentsParsed.onShow &&
                 componentsParsed.onShow.call(this)
                 onShow && onShow.call(this)
             }
-            // rewrite instance's onHide method
-            instance.onHide = function () {
+            // rewrite proto's onHide method
+            proto.onHide = function () {
                 componentsParsed.onHide &&
                 componentsParsed.onHide.call(this)
                 onHide && onHide.call(this)
             }
-            // rewrite instance's onUnload method
-            instance.onUnload = function () {
+            // rewrite proto's onUnload method
+            proto.onUnload = function () {
                 componentsParsed.onUnload &&
                 componentsParsed.onUnload.call(this)
                 onUnload && onUnload.call(this)
             }
             // initialize page by calling Page function
-            wt.Page(instance)
+            wt.Page(proto)
         }
     }
 }

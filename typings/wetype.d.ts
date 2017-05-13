@@ -17,25 +17,23 @@ export declare namespace wxLib {
     }
 
     interface PageEvents {
-        onLoad?(): void | Promise<any>,
-        onReady?(): void | Promise<any>,
-        onShow?(): void | Promise<any>,
-        onHide?(): void | Promise<any>,
-        onUnload?(): void | Promise<any>,
-        onPullDownRefresh?(): void | Promise<any>,
-        onReachBottom?(): void | Promise<any>,
-        onShareAppMessae?(): ShareAppMessage,
+        onLoad?(this: any): void | Promise<any>,
+        onReady?(this: any): void | Promise<any>,
+        onShow?(this: any): void | Promise<any>,
+        onHide?(this: any): void | Promise<any>,
+        onUnload?(this: any): void | Promise<any>,
+        onPullDownRefresh?(this: any): void | Promise<any>,
+        onReachBottom?(this: any): void | Promise<any>,
+        onShareAppMessae?(this: any): ShareAppMessage,
     }
 
     interface PageMethods extends PageEvents {
-        data: any,
         methods?: {
             [eventHandler: string]: any
         }
     }
 
     interface ComponentMethods {
-        data: any,
         onLoad?(): any,
         onReady?(): any,
         onShow?(): any,
@@ -47,18 +45,18 @@ export declare namespace wxLib {
         }
     }
 
-    // interface ComponentParsed {
-    //     data: any,
-    //     onLoad?(): Function,
-    //     onReady?(): Function,
-    //     onShow?(): Function,
-    //     onHide?(): Function,
-    //     onUnload?(): Function,
-    //     onReachBottom?(): Function,
-    //     methods: {
-    //         [eventHandler: string]: any
-    //     }
-    // }
+    interface ComponentParsed {
+        data: any,
+        onLoad?(): any,
+        onReady?(): any,
+        onShow?(): any,
+        onHide?(): any,
+        onUnload?(): any,
+        onReachBottom?(): any,
+        methods: {
+            [eventHandler: string]: any
+        }
+    }
 
     interface ShareAppMessage {
         title: string,
@@ -121,17 +119,21 @@ export declare namespace wxLib {
 
     interface PageDecoConfig {
         pageConfig: wxLib.PageConifg,
-        components?: Component[]
+        data?: any,
+        components?: ComponentConstructor[]
     }
 
     interface PageConstructor {
         new (): PageMethods
+        components?: string[]
+        config?: any
     }
 
     interface ComponentConstructor {
         new (): ComponentMethods
+        prototype: ComponentMethods
+        // static data
         data?: any,
-        prototype: PageEvents
     }
 }
 

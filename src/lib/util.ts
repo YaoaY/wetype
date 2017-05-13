@@ -5,3 +5,5 @@ export function getRandom () {
 export const assign = Object.assign
 
 export const getKeys = Object.keys
+
+export const inNode = typeof process !== 'undefined'
