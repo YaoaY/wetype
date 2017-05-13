@@ -34,7 +34,7 @@ export function ComponentDecor(
         // evaluate new method property names
         if (instance.methods) {
             getKeys(instance.methods).forEach(key => {
-                newData[`$${name}$${key}`] = instance.methods[key]
+                newMethods[`$${name}$${key}`] = instance.methods[key]
             })
         }
         // replace instance.methods with new new methods

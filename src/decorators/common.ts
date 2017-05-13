@@ -1,6 +1,11 @@
 import { assign } from '../lib/util'
 import { wxLib } from '../../typings/wetype'
 
+export class WetypePage {
+    protected data: any = {}
+    protected methods: any = {}
+}
+
 export function handleComponents(
     components: wxLib.ComponentConstructor[] | undefined
 ): wxLib.ComponentParsed {
