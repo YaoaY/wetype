@@ -28,6 +28,7 @@ export declare namespace wxLib {
     }
 
     interface PageMethods extends PageEvents {
+        data?: any
         methods?: {
             [eventHandler: string]: any
         }
@@ -40,20 +41,18 @@ export declare namespace wxLib {
         onHide?(): any,
         onUnload?(): any,
         onReachBottom?(): any,
-        methods: {
-            [eventHandler: string]: any
-        }
+        [eventHandler: string]: any
     }
 
     interface ComponentParsed {
         data: any,
-        onLoad?(): any,
-        onReady?(): any,
-        onShow?(): any,
-        onHide?(): any,
-        onUnload?(): any,
-        onReachBottom?(): any,
-        methods: {
+        handlers: {
+            onLoad?(): any,
+            onReady?(): any,
+            onShow?(): any,
+            onHide?(): any,
+            onUnload?(): any,
+            onReachBottom?(): any,
             [eventHandler: string]: any
         }
     }
@@ -133,7 +132,8 @@ export declare namespace wxLib {
         new (): ComponentMethods
         prototype: ComponentMethods
         // static data
-        data?: any,
+        data?: any
+        handlers?: any
     }
 }
 

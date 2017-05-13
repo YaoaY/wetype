@@ -6,20 +6,23 @@ export function handleComponents (
 ): wxLib.ComponentParsed {
     components = components || []
     let data = {}
-    let methods = {}
-    let proto = components.map(Com => {
-        let proto = Com.prototype
+    // let methods = {}
+    let handlers = components.map(Com => {
+        let handlers = Com.handlers
         assign(data, Com.data)
-        assign(methods, proto.methods)
-        delete proto.methods
-        return proto
+        // assign(methods, handlers.methods)
+        // delete handlers.methods
+        return handlers
+    })
+    assign(handlers, {
+        onLoad: () => handlers.forEach(ins => ins.onLoad && ins.onLoad()),
+        onShow: () => handlers.forEach(ins => ins.onShow && ins.onShow()),
+        onHide: () => handlers.forEach(ins => ins.onHide && ins.onHide()),
+        onUnload: () => handlers.forEach(ins => ins.onUnload && ins.onUnload()),
     })
     return {
         data,
-        methods,
-        onLoad: () => proto.forEach(ins => ins.onLoad && ins.onLoad()),
-        onShow: () => proto.forEach(ins => ins.onShow && ins.onShow()),
-        onHide: () => proto.forEach(ins => ins.onHide && ins.onHide()),
-        onUnload: () => proto.forEach(ins => ins.onUnload && ins.onUnload()),
+        // methods,
+        handlers
     }
 }

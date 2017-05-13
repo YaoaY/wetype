@@ -5,32 +5,36 @@ import { handleComponents } from './common'
 
 export function PageDecor(pageDecoConfig: wxLib.PageDecoConfig) {
     return function(Constr: wxLib.PageConstructor) {
-        let proto = Constr.prototype
+        // let proto = Constr.prototype
         if (inNode) {
             pageDecoConfig.components = pageDecoConfig.components || []
             Constr.components = pageDecoConfig.components.map(Consr => Consr.name)
             Constr.config = pageDecoConfig.pageConfig
         } else {
+            let instance = new Constr
             let { data, components } = pageDecoConfig
             data = data || {}
             let componentsParsed = handleComponents(components)
-            console.log(componentsParsed)
-            // let { methods } = proto
+            let { handlers } = componentsParsed
+            // console.log(componentsParsed)
+            let { methods } = instance
             // methods = methods || {}
             // assign components' data to instance's data
             assign(data, componentsParsed.data)
             // assign page's methods to instance
-            // assign(proto, methods)
+            // assign(instance, methods)
             // assgin components' methods to instance
-            assign(proto, componentsParsed.methods)
+            // assign(instance, componentsParsed.methods)
             // assign data to proto.data
-            proto.data = data
+            instance.data = data
             // delelte the methods property on instance
-            // delete proto.methods
-            let { onLoad, onShow, onHide, onUnload } = proto
+            delete instance.methods
+            let { onLoad, onShow, onHide, onUnload } = instance
+            // delete instance
+            // instance = {}
             // rewrite instance's onLoad method
-            proto.onLoad = function() {
-                let keys = getKeys(proto.data)
+            instance.onLoad = function() {
+                let keys = getKeys(instance.data)
                 let properties = {}
                 for (let k of keys) {
                     properties[k] = {
@@ -41,31 +45,31 @@ export function PageDecor(pageDecoConfig: wxLib.PageDecoConfig) {
                 // observer changes to this.data
                 Object.defineProperties(this, properties)
                 // call components' onLoad methods first
-                componentsParsed.onLoad &&
-                componentsParsed.onLoad.call(this)
+                handlers.onLoad &&
+                handlers.onLoad.call(this)
                 // call page' s onLoad method
                 onLoad && onLoad.call(this)
             }
-            // rewrite proto's onShow method
-            proto.onShow = function () {
-                componentsParsed.onShow &&
-                componentsParsed.onShow.call(this)
+            // rewrite instance's onShow method
+            instance.onShow = function () {
+                handlers.onShow &&
+                handlers.onShow.call(this)
                 onShow && onShow.call(this)
             }
-            // rewrite proto's onHide method
-            proto.onHide = function () {
-                componentsParsed.onHide &&
-                componentsParsed.onHide.call(this)
+            // rewrite instance's onHide method
+            instance.onHide = function () {
+                handlers.onHide &&
+                handlers.onHide.call(this)
                 onHide && onHide.call(this)
             }
-            // rewrite proto's onUnload method
-            proto.onUnload = function () {
-                componentsParsed.onUnload &&
-                componentsParsed.onUnload.call(this)
+            // rewrite instance's onUnload method
+            instance.onUnload = function () {
+                handlers.onUnload &&
+                handlers.onUnload.call(this)
                 onUnload && onUnload.call(this)
             }
             // initialize page by calling Page function
-            wt.Page(proto)
+            wt.Page(instance)
         }
     }
 }

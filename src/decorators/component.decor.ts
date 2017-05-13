@@ -16,13 +16,15 @@ export function ComponentDecor(
             return Constr
         } 
         let proto = Constr.prototype
+        let instance = new Constr
         let name = proto.constructor.name || `$id$${getRandom()}`
         let componentsParsed = handleComponents(componentDecorOptions.components)
         // assign nested components' data to component's Constructor
         Constr.data = componentDecorOptions.data || {}
         assign(Constr.data, componentsParsed.data)
         // assign nested components' methods to component's prototype
-        // // proto.methods = proto.methods || {}
+        // if (!instance.methods) instance.methods
+        // instance.methods = instance.methods || {}
         // assign(proto.methods, componentsParsed.methods)
         let newData = {}
         // let newMethods = {}
@@ -31,13 +33,16 @@ export function ComponentDecor(
             newData[`$${name}$${key}`] = Constr.data[key]
         })
         // evaluate new method property names
-        // getKeys(proto.methods).forEach(key => {
-            // newData[`$${name}$${key}`] = proto.methods[key]
-        // })
+        // if (instance.methods) {
+        //     getKeys(instance.methods).forEach(key => {
+        //         newData[`$${name}$${key}`] = instance.methods[key]
+        //     })
+        // }
         // replace instance.methods with new new methods
-        // proto.methods = newMethods
+        // instance.methods = newMethods
         Constr.data = newData
-        Constr.prototype = proto
+        Constr.handlers = instance
+        Constr.prototype = { constructor: Constr }
         return Constr
     }
 }
