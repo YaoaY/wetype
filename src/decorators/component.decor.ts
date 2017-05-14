@@ -37,6 +37,23 @@ export function ComponentDecor(
                 newMethods[`$${name}$${key}`] = instance.methods[key]
             })
         }
+        let onLoad = instance.onLoad
+        instance.onLoad = function () {
+            let keys = getKeys(Constr.data)
+            let properties = {}
+            for (let k of keys) {
+                properties[k] = {
+                    set: (v) => this[k] = v,
+                    get: () => this[k]
+                }
+            }
+            Object.defineProperties(this, properties)
+            let childThis: any = {
+                $parent: this
+            }
+            assign(childThis, instance)
+            onLoad && onLoad.call(childThis)
+        }
         // replace instance.methods with new new methods
         instance.methods = newMethods
         Constr.data = newData

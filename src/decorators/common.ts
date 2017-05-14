@@ -15,6 +15,14 @@ export function handleComponents(
     let handlers = components.map(Com => {
         let handlers = Com.handlers
         assign(data, Com.data)
+        // for (let m in handlers.methods) {
+        //     methods[m] = function () {
+        //         let newThis = {
+        //             $parent: this
+        //         }
+        //         handlers.methods.call(newThis)
+        //     }
+        // }
         assign(methods, handlers.methods)
         delete handlers.methods
         return handlers
