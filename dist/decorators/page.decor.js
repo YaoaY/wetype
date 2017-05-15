@@ -35,7 +35,8 @@ function PageDecor(pageDecoConfig) {
                 for (let k of keys) {
                     properties[k] = {
                         set: (v) => this.setData({ [k]: v }),
-                        get: () => this.data[k]
+                        get: () => this.data[k],
+                        enumerable: true
                     };
                 }
                 // observer changes to this.data

@@ -1,4 +1,4 @@
-import { assign } from '../lib/util'
+import { assign, getKeys } from '../lib/util'
 import { wxLib } from '../../typings/wetype'
 
 export class WetypePage {
@@ -35,4 +35,16 @@ export function handleComponents(
         onHide: () => handlers.forEach(ins => ins.onHide && ins.onHide()),
         onUnload: () => handlers.forEach(ins => ins.onUnload && ins.onUnload()),
     }
+}
+
+export function bindMethods (methods) {
+    let newMethods = {}
+    getKeys(methods).forEach(m => {
+        let method = methods[m]
+        newMethods[m] = function (...arg) {
+            let newThis = { $parent: this }
+            method.apply(newThis, ...arg)
+        }
+    })
+    return newMethods
 }

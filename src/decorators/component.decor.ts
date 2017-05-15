@@ -1,6 +1,6 @@
 import { wxLib } from '../../typings/wetype'
 import { getRandom, getKeys, assign, inNode } from '../lib/util'
-import { handleComponents } from './common'
+import { handleComponents, bindMethods } from './common'
 
 export interface ComponentDecorOptions {
     components?: wxLib.ComponentConstructor[],
@@ -19,11 +19,12 @@ export function ComponentDecor(
         let instance = new Constr
         let name = proto.constructor.name || `$id$${getRandom()}`
         let componentsParsed = handleComponents(componentDecorOptions.components)
+        let parentMethods = bindMethods(instance.methods) || {}
         // assign nested components' data to component's Constructor
         Constr.data = componentDecorOptions.data || {}
         assign(Constr.data, componentsParsed.data)
         // assign nested components' methods to component's prototype
-        instance.methods = instance.methods || {}
+        // instance.methods = bindMethods(instance.methods) || {}
         assign(instance.methods, componentsParsed.methods)
         let newData = {}
         let newMethods = {}
@@ -44,7 +45,8 @@ export function ComponentDecor(
             for (let k of keys) {
                 properties[k] = {
                     set: (v) => this[k] = v,
-                    get: () => this[k]
+                    get: () => this[k],
+                    enumerable: true
                 }
             }
             Object.defineProperties(this, properties)
@@ -55,7 +57,7 @@ export function ComponentDecor(
             onLoad && onLoad.call(childThis)
         }
         // replace instance.methods with new new methods
-        instance.methods = newMethods
+        instance.methods = assign({}, newMethods, parentMethods)
         Constr.data = newData
         Constr.handlers = instance
         Constr.prototype = { constructor: Constr, methods: {} }
