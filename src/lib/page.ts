@@ -1,20 +1,22 @@
 import { Component } from './component'
+import { wetype } from '../../typings/wetype.new'
 
 export class Page extends Component {
     
-    protected isComponent = false
+    isComponent = false
 
-    protected $parent
-    protected $root
-
-    protected init (wx, $parent) {
+    init (wxPageCtx: wetype.OriginalPageContext, $parent: wetype.AppClass) {
         this.$parent = $parent
         this.$root = this
-        super.init(wx, this)
+        super.init(wxPageCtx, this)
     }
 
     onLoad () {
         super.onLoad()
+    }
+
+    onShow() {
+
     }
 
 }
