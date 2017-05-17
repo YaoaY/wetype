@@ -26,7 +26,7 @@ function PageDecor(pageDecoConfig) {
             // copy methods
             util_1.getProperties(page.methods).forEach(m => {
                 config[m] = function (...args) {
-                    page.methods && page.methods[m].call(context_1.globalContext.$instance.$pages[Constr.name], ...args);
+                    page.methods && page.methods[m].call(page, ...args);
                 };
             });
             // initialize Page

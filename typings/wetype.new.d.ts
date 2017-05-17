@@ -152,7 +152,10 @@ export declare namespace wetype {
     }
 
     interface OriginalPageContext extends PageBaseEvents {
-        data?: ObjectLiteral
+        data?: ObjectLiteral,
+        setData(obj: ObjectLiteral): void
+        update(): void
+        forceUpdate(): void
     }
 
 
