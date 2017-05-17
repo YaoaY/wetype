@@ -61,16 +61,16 @@ const pageEvent = ['onLoad', 'onReady', 'onShow', 'onHide', 'onUnload', 'onPullD
 function handleComponents (
     config: OriginalPageConfig,
     comIns: ComponentForExtend,
-    components: ComponentForExtendConstructor[],
-    prefix?: string
+    components: ComponentForExtendConstructor[]
 ) {
     components.forEach(Component => {
         let ins = new Component
         ins.$name = Component.name
-        let comPrefix = prefix ? `${prefix}${ins.$name}$` : `$${ins.$name}$`
         comIns.$com[ins.$name] = ins
+        comIns.$prefix = comIns.$prefix ? `${comIns.$prefix}$${ins.$name}` : `$${comIns.constructor.name}`
+        comIns.data = Component.data || {}
         Component.components &&
-        handleComponents(config, comIns, Component.components, comPrefix)
+        handleComponents(config, comIns, Component.components)
     })
     Object.getOwnPropertyNames(comIns.constructor.prototype || []).forEach(prop => {
         if (prop !== 'constructor' && pageEvent.indexOf(prop) === -1) {
