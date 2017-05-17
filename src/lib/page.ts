@@ -1,22 +1,19 @@
-import { Component } from './component'
+import { ComponentForExtend } from './component'
 import { wetype } from '../../typings/wetype.new'
+import { globalContext } from './context'
 
-export class Page extends Component {
+export class PageForExtend extends ComponentForExtend {
     
-    isComponent = false
+    $isComponent = false
 
     init (wxPageCtx: wetype.OriginalPageContext, $parent: wetype.AppClass) {
         this.$parent = $parent
-        this.$root = this
+        this.$root = globalContext.$instance
         super.init(wxPageCtx, this)
     }
 
     onLoad () {
         super.onLoad()
-    }
-
-    onShow() {
-
     }
 
 }

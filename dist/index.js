@@ -7,4 +7,7 @@ __export(require("./decorators/app.decor"));
 __export(require("./decorators/page.decor"));
 __export(require("./decorators/component.decor"));
 __export(require("./lib/wx"));
+__export(require("./lib/page"));
+__export(require("./lib/app"));
+__export(require("./lib/component"));
 //# sourceMappingURL=index.js.map

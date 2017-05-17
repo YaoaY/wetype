@@ -1,9 +1,7 @@
 import { wetype } from '../../typings/wetype.new'
 
-export class Component implements wetype.ComponentContext {
+export class ComponentForExtend implements wetype.ComponentClass {
     
-    wxPageCtx: wetype.OriginalPageContext
-
     $root: wetype.AppClass
     $parent: wetype.AppClass | wetype.PageClass | wetype.ComponentClass
     $com
@@ -19,7 +17,7 @@ export class Component implements wetype.ComponentContext {
     methods: wetype.MethodLiteral = {}
 
     init (wxPageCtx: wetype.OriginalPageContext, $root, $parent?) {
-        this.wxPageCtx = wxPageCtx
+        this.$wxPageContext = wxPageCtx
     }
 
     onLoad () {

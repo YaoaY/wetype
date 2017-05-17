@@ -1,13 +1,29 @@
 import { wxLib } from '../../typings/wetype'
+import { wetype } from '../../typings/wetype.new'
 import { wt } from '../lib/wx'
-import { App } from '../lib/app'
+import { globalContext } from '../lib/context'
 
 export function AppDecor(appConfig: wxLib.AppConfig) {
-    return function (constructor: Function) {
+    return function (Constr: wetype.AppConstructor) {
         if (typeof process !== 'undefined') {
-            constructor.prototype.appConfig = appConfig
+            Constr.prototype.appConfig = appConfig
         } else {
-            wt.App(constructor.prototype)
+            let app = new Constr
+            app.$wxapp = wt.getApp()
+            if (!globalContext.$instance) {
+                app.init(globalContext)
+                globalContext.$instance = app
+            }
+            let config: wetype.OriginalAppConfig = {
+                $app: app,
+                onLaunch (...args) {
+                    app.onLaunch && app.onLaunch.call(globalContext, ...args) 
+                },
+                onShow (...args) {
+                    app.onShow && app.onShow.call(globalContext)
+                },
+            }
+            wt.App(config)
         }
     }
 }

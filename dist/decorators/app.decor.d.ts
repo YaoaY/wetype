@@ -1,2 +1,3 @@
 import { wxLib } from '../../typings/wetype';
-export declare function AppDecor(appConfig: wxLib.AppConfig): (constructor: Function) => void;
+import { wetype } from '../../typings/wetype.new';
+export declare function AppDecor(appConfig: wxLib.AppConfig): (Constr: wetype.AppConstructor) => void;

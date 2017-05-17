@@ -17,8 +17,14 @@ export declare namespace wetype {
         onHide?: () => any
     }
 
-    interface AppClass extends AppBaseEvents {
+    interface PagesProperty {
+        [page: string]: PageClass
+    }
 
+    interface AppClass extends AppBaseEvents {
+        $wxapp: OriginalAppContext
+        $pages: PagesProperty
+        init(gc: GlobalContext): void
     }
 
     interface ComponentBaseEvents { 
@@ -36,13 +42,27 @@ export declare namespace wetype {
     }
 
     interface ComponentPrototype extends ComponentBaseEvents {
-
+        init(
+            wxPageContext: OriginalPageContext,
+            $root: AppClass,
+            $parent?: AppClass | PageClass | ComponentClass
+        ): void
     }
 
     interface ComponentClass extends ComponentPrototype {
         data?: ObjectLiteral
         methods?: MethodLiteral
         events?: MethodLiteral
+        $root: AppClass
+        $parent: AppClass | PageClass | ComponentClass
+        $com: {
+            [componentName: string]: ComponentClass
+        }
+        $data: ObjectLiteral
+        $name: string
+        $wxAppContext: OriginalAppContext
+        $wxPageContext: OriginalPageContext
+        $isComponent: boolean
     }
 
     interface ComponentDecorConfig {
@@ -75,6 +95,14 @@ export declare namespace wetype {
     interface PageConstructor extends ComponentConstructor {
         new(): PageClass
         prototype: PagePrototype
+        config?: any
+        data?: ObjectLiteral
+        components?: any
+    }
+
+    interface AppConstructor {
+        new (): AppClass
+        prototype: any
     }
 
 
@@ -87,9 +115,8 @@ export declare namespace wetype {
     }
 
     interface GlobalContext extends AppBaseEvents {
-        $pages: {
-            [pageName: string]: PageContext
-        }
+        $pages: PagesProperty
+        $instance: AppClass
     }
 
     interface ComponentContext {
@@ -106,12 +133,22 @@ export declare namespace wetype {
         data: ObjectLiteral
     }
 
+    interface OriginalPageConfig extends PageBaseEvents {
+        data?: ObjectLiteral
+        $page: PageClass
+        // custom event handlers
+        [handlers: string]: any
+    }
+
+    interface OriginalAppConfig extends AppBaseEvents {
+        $app: AppClass
+    }
+
     interface PageContext extends ComponentContext {
         $status: string
     }
 
     interface OriginalAppContext extends AppBaseEvents {
-
     }
 
     interface OriginalPageContext extends PageBaseEvents {

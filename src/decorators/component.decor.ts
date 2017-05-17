@@ -1,5 +1,5 @@
 import { wxLib } from '../../typings/wetype'
-import { getRandom, inNode } from '../lib/util'
+import { inNode } from '../lib/util'
 
 export interface ComponentDecorOptions {
     components?: wxLib.ComponentConstructor[],
@@ -14,10 +14,10 @@ export function ComponentDecor(
         if (inNode) {
             return Constr
         }
-        let proto = Constr.prototype
-        let instance = new Constr
-        let name = proto.constructor.name || `$id$${getRandom()}`
-        
+        // let proto = Constr.prototype
+        // let instance = new Constr
+        // let name = proto.constructor.name || `$id$${getRandom()}`
+
         return Constr
     }
 }

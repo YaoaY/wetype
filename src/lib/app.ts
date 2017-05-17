@@ -1,17 +1,17 @@
 import { wetype } from '../../typings/wetype.new'
-import { globalContext } from './context'
 
-export class App {
+export class AppForExtend implements wetype.AppClass {
 
-    $pages: wetype.ObjectLiteral = {}
+    $pages: wetype.PagesProperty = {}
+    $wxapp: wetype.OriginalAppContext
 
-    init(AppConstr) {
-        let config: wetype.OriginalAppContext = {}
-        let appIns: wetype.AppClass = new AppConstr
-        if (!globalContext.$instance) {
-            appIns.init(globalContext)
-            globalContext.$instance = appIns
-        }
+    init(globalContext) {
+        // let config: wetype.OriginalAppContext = {}
+        // let appIns: wetype.AppClass = new AppConstr
+        // if (!globalContext.$instance) {
+        //     appIns.init(globalContext)
+        //     globalContext.$instance = appIns
+        // }
     }
 
 }

@@ -14,3 +14,5 @@ export function extendClass (classA, classB) {
     assign(classA.prototype, newProtos)
     return classA
 }
+
+export const getProperties = Object.getOwnPropertyNames

@@ -1,25 +1,23 @@
 import { wxLib } from '../../typings/wetype'
+import { wetype } from '../../typings/wetype.new'
 import { wt } from '../lib/wx'
-import { inNode, extendClass } from '../lib/util'
-import { Page } from '../lib/page'
+import { inNode, getProperties } from '../lib/util'
 import { globalContext } from '../lib/context'
 
 export function PageDecor(pageDecoConfig: wxLib.PageDecoConfig) {
-    return function(Constr: wxLib.PageConstructor) {
+    return function(Constr: wetype.PageConstructor) {
         if (inNode) {
             pageDecoConfig.components = pageDecoConfig.components || []
             Constr.components = pageDecoConfig.components.map(Consr => Consr.name)
             Constr.config = pageDecoConfig.pageConfig
         } else {
-            let config: any = {}
-            // inherit Page to Constr mannually
-            let newConstr = extendClass(Constr, Page)
-            let page: Page = new newConstr
-            globalContext.$instance.$pages[newConstr.name] = page
-            config.$page = page
+            let page = new Constr
+            let config: wetype.OriginalPageConfig = { $page: page }
+            globalContext.$instance.$pages[Constr.name] = page
+            config.data = pageDecoConfig.data
 
-            config.onLoad = function (...args) {
-                page.$name = newConstr.name
+            config.onLoad = function (this: wetype.OriginalPageContext, ...args) {
+                page.$name = Constr.name
                 page.init(this, globalContext.$instance)
 
                 page.onLoad && page.onLoad.call(page, ...args)
@@ -28,6 +26,12 @@ export function PageDecor(pageDecoConfig: wxLib.PageDecoConfig) {
             config.onShow = function (...args) {
                 page.onShow && page.onShow.call(page, ...args)
             }
+            // copy methods
+            getProperties(page.methods).forEach(m => {
+                config[m] = function (...args) {
+                    page.methods && page.methods[m].call(page, ...args)
+                }
+            })
 
             // initialize Page
             wt.Page(config)
