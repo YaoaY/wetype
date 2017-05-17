@@ -1,8 +1,8 @@
-import { wetype } from '../../typings/wetype.new'
+import { AppForExtend, PagesProperty } from './app'
 
-export class Context implements wetype.GlobalContext {
-    $instance: wetype.AppClass
-    $pages: wetype.PagesProperty
+export class Context {
+    $instance: AppForExtend
+    $pages: PagesProperty
 }
 
 export const globalContext = new Context

@@ -1,5 +1,6 @@
 import { wxLib } from './wetype'
 
+
 export declare namespace wetype {
 
     interface ObjectLiteral {
@@ -7,7 +8,7 @@ export declare namespace wetype {
     }
 
     interface MethodLiteral {
-        [name: string]: () => any
+        [name: string]: Function
     }
 
     interface AppBaseEvents {
@@ -17,15 +18,15 @@ export declare namespace wetype {
         onHide?: () => any
     }
 
-    interface PagesProperty {
-        [page: string]: PageClass
-    }
+    // interface PagesProperty {
+    //     [page: string]: PageClass
+    // }
 
-    interface AppClass extends AppBaseEvents {
-        $wxapp: OriginalAppContext
-        $pages: PagesProperty
-        init(gc: GlobalContext): void
-    }
+    // interface AppClass extends AppBaseEvents {
+    //     $wxapp: OriginalAppContext
+    //     $pages: PagesProperty
+    //     init(gc: GlobalContext): void
+    // }
 
     interface ComponentBaseEvents { 
         onLoad?: () => any
@@ -41,41 +42,41 @@ export declare namespace wetype {
     interface PageBaseEvents extends ComponentBaseEvents {
     }
 
-    interface ComponentPrototype extends ComponentBaseEvents {
-        init(
-            wxPageContext: OriginalPageContext,
-            $root: AppClass,
-            $parent?: AppClass | PageClass | ComponentClass
-        ): void
-    }
+    // interface ComponentPrototype extends ComponentBaseEvents {
+    //     init(
+    //         wxPageContext: OriginalPageContext,
+    //         $root: AppClass,
+    //         $parent?: AppClass | PageClass | ComponentClass
+    //     ): void
+    // }
 
-    interface ComponentClass extends ComponentPrototype {
-        data?: ObjectLiteral
-        methods?: MethodLiteral
-        events?: MethodLiteral
-        $root: AppClass
-        $parent: AppClass | PageClass | ComponentClass
-        $com: {
-            [componentName: string]: ComponentClass
-        }
-        $data: ObjectLiteral
-        $name: string
-        $wxAppContext: OriginalAppContext
-        $wxPageContext: OriginalPageContext
-        $isComponent: boolean
-    }
+    // interface ComponentClass extends ComponentPrototype {
+    //     data?: ObjectLiteral
+    //     methods?: MethodLiteral
+    //     events?: MethodLiteral
+    //     $root: AppClass
+    //     $parent: AppClass | PageClass | ComponentClass
+    //     $com: {
+    //         [componentName: string]: ComponentClass
+    //     }
+    //     $data: ObjectLiteral
+    //     $name: string
+    //     $wxAppContext: OriginalAppContext
+    //     $wxPageContext: OriginalPageContext
+    //     $isComponent: boolean
+    // }
 
     interface ComponentDecorConfig {
         data?: ObjectLiteral
         components?: any
     }
 
-    interface PagePrototype extends ComponentPrototype {
+    // interface PagePrototype extends ComponentPrototype {
 
-    }
+    // }
 
-    interface PageClass extends ComponentClass {
-    }
+    // interface PageClass extends ComponentClass {
+    // }
 
     interface ShareAppMessageResult {
         path: string
@@ -86,24 +87,25 @@ export declare namespace wetype {
         pageConfig?: wxLib.PageConifg
     }
 
-    interface ComponentConstructor {
-        new (): ComponentClass
-        prototype: ComponentPrototype
-        data?: ObjectLiteral
-    }
+    // interface ComponentConstructor {
+    //     new (): ComponentClass
+    //     prototype: ComponentPrototype
+    //     data?: ObjectLiteral
+    //     components?: ComponentConstructor[]
+    // }
 
-    interface PageConstructor extends ComponentConstructor {
-        new(): PageClass
-        prototype: PagePrototype
-        config?: any
-        data?: ObjectLiteral
-        components?: any
-    }
+    // interface PageConstructor extends ComponentConstructor {
+    //     new(): PageClass
+    //     prototype: PagePrototype
+    //     config?: any
+    //     // data?: ObjectLiteral
+    //     // components?: any
+    // }
 
-    interface AppConstructor {
-        new (): AppClass
-        prototype: any
-    }
+    // interface AppConstructor {
+    //     new (): AppClass
+    //     prototype: any
+    // }
 
 
     interface ComponentContext {
@@ -114,35 +116,35 @@ export declare namespace wetype {
 
     }
 
-    interface GlobalContext extends AppBaseEvents {
-        $pages: PagesProperty
-        $instance: AppClass
-    }
+    // interface GlobalContext extends AppBaseEvents {
+    //     $pages: PagesProperty
+    //     $instance: AppClass
+    // }
 
-    interface ComponentContext {
-        $com: {
-            [ComponentName: string]: ComponentClass
-        }
-        $data: ObjectLiteral
-        $isComponent: boolean
-        $name: string
-        $parent: AppClass | PageClass | ComponentClass
-        $root: AppClass
-        $wxAppContext: OriginalAppContext
-        $wxPageContext: OriginalPageContext
-        data: ObjectLiteral
-    }
+    // interface ComponentContext {
+    //     $com: {
+    //         [ComponentName: string]: ComponentClass
+    //     }
+    //     $data: ObjectLiteral
+    //     $isComponent: boolean
+    //     $name: string
+    //     $parent: AppClass | PageClass | ComponentClass
+    //     $root: AppClass
+    //     $wxAppContext: OriginalAppContext
+    //     $wxPageContext: OriginalPageContext
+    //     data: ObjectLiteral
+    // }
 
-    interface OriginalPageConfig extends PageBaseEvents {
-        data?: ObjectLiteral
-        $page: PageClass
-        // custom event handlers
-        [handlers: string]: any
-    }
+    // interface OriginalPageConfig extends PageBaseEvents {
+    //     data?: ObjectLiteral
+    //     $page: PageClass
+    //     // custom event handlers
+    //     [handlers: string]: any
+    // }
 
-    interface OriginalAppConfig extends AppBaseEvents {
-        $app: AppClass
-    }
+    // interface OriginalAppConfig extends AppBaseEvents {
+    //     $app: AppClass
+    // }
 
     interface PageContext extends ComponentContext {
         $status: string
@@ -158,5 +160,16 @@ export declare namespace wetype {
         forceUpdate(): void
     }
 
+    type BlackOrWhite = 'black' | 'white'
+
+    interface PageConifg {
+        navigationBarBackgroundColor?: string,
+        navigationBarTextStyle?: BlackOrWhite,
+        navigationBarTitleText?: string,
+        backgroundColor?: string,
+        backgroundTextStyle?: string,
+        enablePullDownRefresh?: Boolean,
+        disableScroll?: Boolean
+    }
 
 }

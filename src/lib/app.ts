@@ -1,8 +1,17 @@
 import { wetype } from '../../typings/wetype.new'
+import { PageForExtend } from './page'
 
-export class AppForExtend implements wetype.AppClass {
+export interface PagesProperty {
+    [name: string]: PageForExtend
+}
 
-    $pages: wetype.PagesProperty = {}
+export interface AppForExtendConstructor {
+    new (): AppForExtend
+}
+
+export class AppForExtend {
+
+    $pages: PagesProperty = {}
     $wxapp: wetype.OriginalAppContext
 
     init(globalContext) {
@@ -12,6 +21,14 @@ export class AppForExtend implements wetype.AppClass {
         //     appIns.init(globalContext)
         //     globalContext.$instance = appIns
         // }
+    }
+
+    onLaunch () {
+
+    }
+
+    onShow() {
+
     }
 
 }

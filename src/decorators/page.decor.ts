@@ -1,21 +1,38 @@
-import { wxLib } from '../../typings/wetype'
 import { wetype } from '../../typings/wetype.new'
 import { wt } from '../lib/wx'
 import { inNode, getProperties } from '../lib/util'
 import { globalContext } from '../lib/context'
+import { PageForExtend, PageForExtendConstructor } from '../lib/page'
+import { ComponentForExtend, ComponentForExtendConstructor } from '../lib/component'
 
-export function PageDecor(pageDecoConfig: wxLib.PageDecoConfig) {
-    return function(Constr: wetype.PageConstructor) {
+export interface PageDecorConfig {
+    components?: ComponentForExtendConstructor[]
+    pageConfig?: wetype.PageConifg
+    data?: wetype.ObjectLiteral
+}
+
+export interface OriginalPageConfig extends wetype.PageBaseEvents {
+    $page: PageForExtend
+    data?: wetype.ObjectLiteral
+    [handlers: string]: any
+}
+
+export function PageDecor(pageDecorConfig: PageDecorConfig) {
+    return function(Constr: PageForExtendConstructor) {
         if (inNode) {
-            pageDecoConfig.components = pageDecoConfig.components || []
-            Constr.components = pageDecoConfig.components.map(Consr => Consr.name)
-            Constr.config = pageDecoConfig.pageConfig
+            pageDecorConfig.components = pageDecorConfig.components || []
+            Constr.components = pageDecorConfig.components
+            Constr.config = pageDecorConfig.pageConfig
         } else {
             let page = new Constr
-            let config: wetype.OriginalPageConfig = { $page: page }
+            let config: OriginalPageConfig = { $page: page }
             globalContext.$instance.$pages[Constr.name] = page
-            config.data = pageDecoConfig.data
+            config.data = pageDecorConfig.data
 
+            // handle components
+            pageDecorConfig.components &&
+            (config = handleComponents(config, page, pageDecorConfig.components))
+            
             config.onLoad = function (this: wetype.OriginalPageContext, ...args) {
                 page.$name = Constr.name
                 page.init(this, globalContext.$instance)
@@ -37,4 +54,30 @@ export function PageDecor(pageDecoConfig: wxLib.PageDecoConfig) {
             wt.Page(config)
         }
     }
+}
+
+const pageEvent = ['onLoad', 'onReady', 'onShow', 'onHide', 'onUnload', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage'];
+
+function handleComponents (
+    config: OriginalPageConfig,
+    comIns: ComponentForExtend,
+    components: ComponentForExtendConstructor[],
+    prefix?: string
+) {
+    components.forEach(Component => {
+        let ins = new Component
+        ins.$name = Component.name
+        let comPrefix = prefix ? `${prefix}${ins.$name}$` : `$${ins.$name}$`
+        comIns.$com[ins.$name] = ins
+        Component.components &&
+        handleComponents(config, comIns, Component.components, comPrefix)
+    })
+    Object.getOwnPropertyNames(comIns.constructor.prototype || []).forEach(prop => {
+        if (prop !== 'constructor' && pageEvent.indexOf(prop) === -1) {
+            config[prop] = function (...args) {
+                comIns.constructor.prototype[prop].call(comIns, ...args)
+            }
+        }
+    })
+    return config
 }
