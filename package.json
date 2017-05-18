@@ -1,6 +1,6 @@
 {
   "name": "wetype",
-  "version": "1.0.16-alpha-21",
+  "version": "1.0.16-alpha-22",
   "description": "develop wechat app with typescript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

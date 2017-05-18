@@ -13,7 +13,7 @@ import { globalContext } from '../lib/context'
 import { $Page, $PageConstructor } from '../lib/page'
 import { $Component, $ComponentConstructor } from '../lib/component'
 import { sep } from '../lib/config'
-import { getDataFromInstance } from './common'
+import { getDataFromInstance, getMethodsFromInstance } from './common'
 
 
 /**
@@ -60,7 +60,7 @@ export interface OriginalPageConfig extends wetype.PageBaseEvents {
  * @returns 
  */
 export function PageDecor(pageDecorConfig: PageDecorConfig) {
-    return function(PageConstructor: $PageConstructor) {
+    return function (PageConstructor: $PageConstructor) {
         if (inNode) {
             /**
              * expose page config for build use in NodeJS
@@ -72,19 +72,19 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
 
             // instantiate Page Constructor
             let page = new PageConstructor
-            
+
             // initialize config and assign $page
             let config: OriginalPageConfig = { $page: page }
-            
+
             // assign initail data to page instance
             page.$data = getDataFromInstance(page)
-            
+
             // assign this page to global context
             globalContext.$instance.$pages[PageConstructor.name] = page
 
             // handle components, assign the return value to config
             config = handleComponents(config, page, pageDecorConfig.components || [], `${sep}${PageConstructor.name}${sep}`)
-            
+
             // rewrite the real onLoad event handler
             config.onLoad = function (this: wetype.OriginalPageContext, ...args) {
 
@@ -126,7 +126,7 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
  * @param {string} prefix component prefix, for example `$Component`
  * @returns {OriginalPageConfig}
  */
-function handleComponents (
+function handleComponents(
     config: OriginalPageConfig,
     comIns: $Component,
     components: $ComponentConstructor[],
@@ -156,36 +156,8 @@ function handleComponents (
         handleComponents(config, ins, Component.components || [], prefix)
     })
 
-    // handle custom event methods in each component
-    Object.getOwnPropertyNames(comIns.methods).forEach(methodName => {
+    // assign methods
+    Object.assign(config, getMethodsFromInstance(comIns))
 
-        // evaluate prefix
-        let prefix = comIns.$prefix + methodName
-
-        // store the original method
-        let method = comIns.methods[methodName]
-
-        // set custom event handler to config
-        config[prefix] = function (e: wetype.OriginalEventObject, ...args) {
-
-            // call the method on the context of this component, change its first argument
-            // to dataset
-            method.call(comIns, e.currentTarget.dataset, e, ...args)
-        }
-    })
-
-    /**
-     *  handle other methods on Component or Page class
-     *  currently useless
-     * 
-        Object.getOwnPropertyNames(comIns.constructor.prototype || []).forEach(prop => {
-            if (prop !== 'constructor' && pageEvent.indexOf(prop) === -1) {
-                config[prop] = function (...args) {
-                    comIns.constructor.prototype[prop].call(comIns, ...args)
-                }
-            }
-        })
-     *
-     */
     return config
 }

@@ -23,10 +23,6 @@ export class $Component {
     $prefix: string = ''
     $wxapp
 
-    // properties that is extended in specified component
-    // components: wetype.ObjectLiteral = {}
-    methods: any = {}
-
     init(wxPageCtx: wetype.OriginalPageContext, $root, $parent?) {
         this.$wxPageContext = wxPageCtx
         if (this.$isComponent) {
