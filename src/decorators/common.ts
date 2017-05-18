@@ -8,7 +8,8 @@ export function getDataFromInstance(ins: $Component): wetype.ObjectLiteral {
         if (
             typeof ins[propName] !== 'function' &&
             pageEvent.indexOf(propName) === -1 &&
-            !/\$_/.test(propName[0])
+            !/\$|_/.test(propName[0]) &&
+            propName !== 'methods'
         ) {
             data[propName] = ins[propName]
         }
