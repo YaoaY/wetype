@@ -11,6 +11,7 @@ import { inNode } from '../lib/util'
 import { globalContext } from '../lib/context'
 import { PageForExtend, PageForExtendConstructor } from '../lib/page'
 import { ComponentForExtend, ComponentForExtendConstructor } from '../lib/component'
+import { sep } from '../lib/config'
 
 
 /**
@@ -77,8 +78,8 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
             // instantiate Page Constructor
             let page = new PageConstructor
             
-            // initialize config and assign $page & initial data to it
-            let config: OriginalPageConfig = { $page: page, data: pageDecorConfig.data }
+            // initialize config and assign $page
+            let config: OriginalPageConfig = { $page: page }
             
             // assign initail data to page instance
             page.$data = pageDecorConfig.data || {}
@@ -87,7 +88,7 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
             globalContext.$instance.$pages[PageConstructor.name] = page
 
             // handle components, assign the return value to config
-            config = handleComponents(config, page, pageDecorConfig.components || [], '')
+            config = handleComponents(config, page, pageDecorConfig.components || [], `${sep}${PageConstructor.name}${sep}`)
             
             // rewrite the real onLoad event handler
             config.onLoad = function (this: wetype.OriginalPageContext, ...args) {
@@ -109,11 +110,11 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
                 page.onShow && page.onShow.call(page, ...args)
             }
             // copy methods
-            Object.getOwnPropertyNames(page.methods).forEach(m => {
-                config[m] = function (...args) {
-                    page.methods && page.methods[m].call(page, ...args)
-                }
-            })
+            // Object.getOwnPropertyNames(page.methods).forEach(m => {
+            //     config[m] = function (...args) {
+            //         page.methods && page.methods[m].call(page, ...args)
+            //     }
+            // })
 
             // initialize Page
             wt.Page(config)
@@ -152,7 +153,7 @@ function handleComponents (
         let ins = new Component
 
         // evalute prefix 
-        prefix = prefix ? `${prefix}${Component.name}$` : `$${Component.name}$`
+        prefix = prefix ? `${prefix}${Component.name}${sep}` : `${sep}${Component.name}${sep}`
 
         //assign $name and $data
         ins.$name = Component.name

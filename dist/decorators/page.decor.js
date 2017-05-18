@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const wx_1 = require("../lib/wx");
 const util_1 = require("../lib/util");
 const context_1 = require("../lib/context");
+const config_1 = require("../lib/config");
 /**
  * decoration for every single page
  *
@@ -29,14 +30,14 @@ function PageDecor(pageDecorConfig) {
         else {
             // instantiate Page Constructor
             let page = new PageConstructor;
-            // initialize config and assign $page & initial data to it
-            let config = { $page: page, data: pageDecorConfig.data };
+            // initialize config and assign $page
+            let config = { $page: page };
             // assign initail data to page instance
             page.$data = pageDecorConfig.data || {};
             // assign this page to global context
             context_1.globalContext.$instance.$pages[PageConstructor.name] = page;
             // handle components, assign the return value to config
-            config = handleComponents(config, page, pageDecorConfig.components || [], '');
+            config = handleComponents(config, page, pageDecorConfig.components || [], `${config_1.sep}${PageConstructor.name}${config_1.sep}`);
             // rewrite the real onLoad event handler
             config.onLoad = function (...args) {
                 // assign construtor's name to $name
@@ -52,11 +53,11 @@ function PageDecor(pageDecorConfig) {
                 page.onShow && page.onShow.call(page, ...args);
             };
             // copy methods
-            Object.getOwnPropertyNames(page.methods).forEach(m => {
-                config[m] = function (...args) {
-                    page.methods && page.methods[m].call(page, ...args);
-                };
-            });
+            // Object.getOwnPropertyNames(page.methods).forEach(m => {
+            //     config[m] = function (...args) {
+            //         page.methods && page.methods[m].call(page, ...args)
+            //     }
+            // })
             // initialize Page
             wx_1.wt.Page(config);
         }
@@ -84,7 +85,7 @@ function handleComponents(config, comIns, components, prefix) {
         // instantiate each child component
         let ins = new Component;
         // evalute prefix 
-        prefix = prefix ? `${prefix}${Component.name}$` : `$${Component.name}$`;
+        prefix = prefix ? `${prefix}${Component.name}${config_1.sep}` : `${config_1.sep}${Component.name}${config_1.sep}`;
         //assign $name and $data
         ins.$name = Component.name;
         ins.$data = Component.data || {};
