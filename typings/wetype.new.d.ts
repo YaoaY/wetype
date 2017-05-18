@@ -28,7 +28,7 @@ export declare namespace wetype {
     //     init(gc: GlobalContext): void
     // }
 
-    interface ComponentBaseEvents { 
+    interface ComponentBaseEvents {
         onLoad?: () => any
         onReady?: () => any
         onShow?: () => any
@@ -170,6 +170,33 @@ export declare namespace wetype {
         backgroundTextStyle?: string,
         enablePullDownRefresh?: Boolean,
         disableScroll?: Boolean
+    }
+
+    interface Touch {
+        identifier: number
+        pageX: number
+        pageY: number
+        clientX: number
+        clientY: number
+    }
+
+    interface OriginalEventObject {
+        type: string
+        timestamp: number
+        target: {
+            id: string
+            dataset: ObjectLiteral
+        }
+        currentTarget: {
+            id: string
+            dataset: ObjectLiteral
+        }
+        detail: {
+            x: number
+            y: number
+        }
+        touches: Touch[]
+        changedTouches: Touch[]
     }
 
 }

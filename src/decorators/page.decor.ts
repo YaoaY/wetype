@@ -124,7 +124,7 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
 /**
  * native pageEvents
  */
-const pageEvent = ['onLoad', 'onReady', 'onShow', 'onHide', 'onUnload', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage'];
+// const pageEvent = ['onLoad', 'onReady', 'onShow', 'onHide', 'onUnload', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage'];
 
 /**
  * handle components recursively
@@ -151,7 +151,7 @@ function handleComponents (
         // instantiate each child component
         let ins = new Component
 
-        // set prefix 
+        // evalute prefix 
         prefix = prefix ? `${prefix}${Component.name}$` : `$${Component.name}$`
 
         //assign $name and $data
@@ -165,14 +165,36 @@ function handleComponents (
         handleComponents(config, ins, Component.components || [], prefix)
     })
 
-    // handle other methods on Component or Page class
-    // useless
-    Object.getOwnPropertyNames(comIns.constructor.prototype || []).forEach(prop => {
-        if (prop !== 'constructor' && pageEvent.indexOf(prop) === -1) {
-            config[prop] = function (...args) {
-                comIns.constructor.prototype[prop].call(comIns, ...args)
-            }
+    // handle custom event methods in each component
+    Object.getOwnPropertyNames(comIns.methods).forEach(methodName => {
+
+        // evaluate prefix
+        let prefix = comIns.$prefix + methodName
+
+        // store the original method
+        let method = comIns.methods[methodName]
+
+        // set custom event handler to config
+        config[prefix] = function (e: wetype.OriginalEventObject, ...args) {
+
+            // call the method on the context of this component, change its first argument
+            // to dataset
+            method.call(comIns, e.currentTarget.dataset, e, ...args)
         }
     })
+
+    /**
+     *  handle other methods on Component or Page class
+     *  currently useless
+     * 
+        Object.getOwnPropertyNames(comIns.constructor.prototype || []).forEach(prop => {
+            if (prop !== 'constructor' && pageEvent.indexOf(prop) === -1) {
+                config[prop] = function (...args) {
+                    comIns.constructor.prototype[prop].call(comIns, ...args)
+                }
+            }
+        })
+     *
+     */
     return config
 }

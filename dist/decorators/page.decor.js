@@ -66,7 +66,7 @@ exports.PageDecor = PageDecor;
 /**
  * native pageEvents
  */
-const pageEvent = ['onLoad', 'onReady', 'onShow', 'onHide', 'onUnload', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage'];
+// const pageEvent = ['onLoad', 'onReady', 'onShow', 'onHide', 'onUnload', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage'];
 /**
  * handle components recursively
  *
@@ -83,7 +83,7 @@ function handleComponents(config, comIns, components, prefix) {
     components.forEach(Component => {
         // instantiate each child component
         let ins = new Component;
-        // set prefix 
+        // evalute prefix 
         prefix = prefix ? `${prefix}${Component.name}$` : `$${Component.name}$`;
         //assign $name and $data
         ins.$name = Component.name;
@@ -93,15 +93,32 @@ function handleComponents(config, comIns, components, prefix) {
         // recursively handle child components until there are no child components
         handleComponents(config, ins, Component.components || [], prefix);
     });
-    // handle other methods on Component or Page class
-    // useless
-    Object.getOwnPropertyNames(comIns.constructor.prototype || []).forEach(prop => {
-        if (prop !== 'constructor' && pageEvent.indexOf(prop) === -1) {
-            config[prop] = function (...args) {
-                comIns.constructor.prototype[prop].call(comIns, ...args);
-            };
-        }
+    // handle custom event methods in each component
+    Object.getOwnPropertyNames(comIns.methods).forEach(methodName => {
+        // evaluate prefix
+        let prefix = comIns.$prefix + methodName;
+        // store the original method
+        let method = comIns.methods[methodName];
+        // set custom event handler to config
+        config[prefix] = function (e, ...args) {
+            // call the method on the context of this component, change its first argument
+            // to dataset
+            method.call(comIns, e.currentTarget.dataset, e, ...args);
+        };
     });
+    /**
+     *  handle other methods on Component or Page class
+     *  currently useless
+     *
+        Object.getOwnPropertyNames(comIns.constructor.prototype || []).forEach(prop => {
+            if (prop !== 'constructor' && pageEvent.indexOf(prop) === -1) {
+                config[prop] = function (...args) {
+                    comIns.constructor.prototype[prop].call(comIns, ...args)
+                }
+            }
+        })
+     *
+     */
     return config;
 }
 //# sourceMappingURL=page.decor.js.map
