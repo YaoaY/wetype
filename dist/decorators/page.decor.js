@@ -13,6 +13,7 @@ function PageDecor(pageDecorConfig) {
         else {
             let page = new Constr;
             let config = { $page: page };
+            page.data = pageDecorConfig.data || {};
             context_1.globalContext.$instance.$pages[Constr.name] = page;
             config.data = pageDecorConfig.data;
             // handle components
@@ -45,8 +46,8 @@ function handleComponents(config, comIns, components, prefix) {
         let ins = new Component;
         prefix = prefix ? `${prefix}${Component.name}$` : `$${Component.name}$`;
         ins.$name = Component.name;
+        ins.data = Component.data || {};
         comIns.$com[ins.$name] = ins;
-        comIns.data = Component.data || {};
         handleComponents(config, ins, Component.components || [], prefix);
     });
     Object.getOwnPropertyNames(comIns.constructor.prototype || []).forEach(prop => {

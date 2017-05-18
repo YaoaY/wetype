@@ -18,16 +18,6 @@ export class PageForExtend extends ComponentForExtend {
         this.$parent = $parent
         this.$root = globalContext.$instance
         super.init(wxPageCtx, this)
-
-        let data = wxPageCtx.data
-        let properties = {}
-        Object.keys(data).forEach(k => {
-            properties[k] = {
-                get: () => wxPageCtx.data![k],
-                set: (v) => wxPageCtx.setData({ [k]: v })
-            }
-        })
-        Object.defineProperties(this, properties)
     }
 
     onLoad () {

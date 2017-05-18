@@ -36,7 +36,7 @@ export class ComponentForExtend {
         }
 
         Object.keys(this.data).forEach(k => {
-            let prefix = `${this.$prefix}$${k}`
+            let prefix = `${this.$prefix}${k}`
             wxPageCtx.data = wxPageCtx.data || {}
             wxPageCtx.data[prefix] = this.data[k]
             Object.defineProperty(this, k, {
@@ -47,11 +47,11 @@ export class ComponentForExtend {
 
         let coms = Object.getOwnPropertyNames(this.$com)
         coms &&
-        coms.forEach(comIns => {
-            let ins = this.$com[comIns]
-            ins.init(wxPageCtx, $root, this)
-            ins.onLoad && ins.onLoad.call(ins)
-        })
+            coms.forEach(comIns => {
+                let ins = this.$com[comIns]
+                ins.init(wxPageCtx, $root, this)
+                ins.onLoad && ins.onLoad.call(ins)
+            })
     }
 
     onLoad () {
