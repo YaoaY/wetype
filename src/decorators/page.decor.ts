@@ -1,6 +1,6 @@
 import { wetype } from '../../typings/wetype.new'
 import { wt } from '../lib/wx'
-import { inNode, getProperties } from '../lib/util'
+import { inNode } from '../lib/util'
 import { globalContext } from '../lib/context'
 import { PageForExtend, PageForExtendConstructor } from '../lib/page'
 import { ComponentForExtend, ComponentForExtendConstructor } from '../lib/component'
@@ -45,7 +45,7 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
                 page.onShow && page.onShow.call(page, ...args)
             }
             // copy methods
-            getProperties(page.methods).forEach(m => {
+            Object.getOwnPropertyNames(page.methods).forEach(m => {
                 config[m] = function (...args) {
                     page.methods && page.methods[m].call(page, ...args)
                 }
@@ -74,6 +74,9 @@ function handleComponents (
         comIns.$components[ins.$name] = ins
         handleComponents(config, ins, Component.components || [], prefix)
     })
+
+    // handle other methods on Component or Page class
+    // useless
     Object.getOwnPropertyNames(comIns.constructor.prototype || []).forEach(prop => {
         if (prop !== 'constructor' && pageEvent.indexOf(prop) === -1) {
             config[prop] = function (...args) {

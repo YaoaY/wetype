@@ -28,7 +28,7 @@ function PageDecor(pageDecorConfig) {
                 page.onShow && page.onShow.call(page, ...args);
             };
             // copy methods
-            util_1.getProperties(page.methods).forEach(m => {
+            Object.getOwnPropertyNames(page.methods).forEach(m => {
                 config[m] = function (...args) {
                     page.methods && page.methods[m].call(page, ...args);
                 };
@@ -50,6 +50,8 @@ function handleComponents(config, comIns, components, prefix) {
         comIns.$components[ins.$name] = ins;
         handleComponents(config, ins, Component.components || [], prefix);
     });
+    // handle other methods on Component or Page class
+    // useless
     Object.getOwnPropertyNames(comIns.constructor.prototype || []).forEach(prop => {
         if (prop !== 'constructor' && pageEvent.indexOf(prop) === -1) {
             config[prop] = function (...args) {
