@@ -1,15 +1,15 @@
 import { wetype } from '../../typings/wetype.new'
-import { PageForExtend } from './page'
+import { $Page } from './page'
 
 export interface PagesProperty {
-    [name: string]: PageForExtend
+    [name: string]: $Page
 }
 
-export interface AppForExtendConstructor {
-    new (): AppForExtend
+export interface $AppConstructor {
+    new (): $App
 }
 
-export class AppForExtend {
+export class $App {
 
     $pages: PagesProperty = {}
     $wxapp: wetype.OriginalAppContext

@@ -10,7 +10,7 @@ import { wetype } from '../../typings/wetype.new'
 import { wt } from '../lib/wx'
 import { inNode } from '../lib/util'
 import { globalContext } from '../lib/context'
-import { AppForExtendConstructor, AppForExtend } from '../lib/app'
+import { $AppConstructor, $App } from '../lib/app'
 
 /**
  * config for decoration for app
@@ -20,7 +20,7 @@ import { AppForExtendConstructor, AppForExtend } from '../lib/app'
  * @extends {wetype.AppBaseEvents}
  */
 export interface OriginalAppConfig extends wetype.AppBaseEvents {
-    $app: AppForExtend
+    $app: $App
 }
 
 /**
@@ -31,7 +31,7 @@ export interface OriginalAppConfig extends wetype.AppBaseEvents {
  * @returns void
  */
 export function AppDecor(appConfig: wxLib.AppConfig) {
-    return function (AppConstructor: AppForExtendConstructor) {
+    return function (AppConstructor: $AppConstructor) {
         if (inNode) {
             /**
              * expose app config for build use in NodeJS

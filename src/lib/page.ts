@@ -1,20 +1,20 @@
-import { ComponentForExtend } from './component'
+import { $Component } from './component'
 import { wetype } from '../../typings/wetype.new'
 import { globalContext } from './context'
-import { ComponentForExtendConstructor } from './component'
-import { AppForExtend } from './app'
+import { $ComponentConstructor } from './component'
+import { $App } from './app'
 
-export interface PageForExtendConstructor {
-    new (): PageForExtend
-    components?: ComponentForExtendConstructor[]
+export interface $PageConstructor {
+    new (): $Page
+    components?: $ComponentConstructor[]
     config?: any
 }
 
-export class PageForExtend extends ComponentForExtend {
+export class $Page extends $Component {
     
     $isComponent = false
 
-    init (wxPageCtx: wetype.OriginalPageContext, $parent: AppForExtend) {
+    init (wxPageCtx: wetype.OriginalPageContext, $parent: $App) {
         this.$parent = $parent
         this.$root = globalContext.$instance
         super.init(wxPageCtx, this)

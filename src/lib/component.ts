@@ -1,19 +1,19 @@
 import { wetype } from '../../typings/wetype.new'
-import { AppForExtend } from './app'
-import { PageForExtend } from './page'
+import { $App } from './app'
+import { $Page } from './page'
 
-export interface ComponentForExtendConstructor {
-    new (): ComponentForExtend
-    components?: ComponentForExtendConstructor[]
+export interface $ComponentConstructor {
+    new (): $Component
+    components?: $ComponentConstructor[]
     prototype: any
     data?: wetype.ObjectLiteral
 }
 
-export class ComponentForExtend {
-    $root: AppForExtend
-    $parent: AppForExtend | PageForExtend | ComponentForExtend
+export class $Component {
+    $root: $App
+    $parent: $App | $Page | $Component
     $components: {
-        [name: string]: ComponentForExtend
+        [name: string]: $Component
     } = {}
     $data: wetype.ObjectLiteral = {}
     $name: string

@@ -73,8 +73,8 @@ exports.PageDecor = PageDecor;
  * handle components recursively
  *
  * @param {OriginalPageConfig} config config that is called by native Page()
- * @param {ComponentForExtend} comIns component instance, either Component or Page
- * @param {ComponentForExtendConstructor[]} components array of cunstructor of components that is inherited by the component
+ * @param {$Component} comIns component instance, either Component or Page
+ * @param {$ComponentConstructor[]} components array of cunstructor of components that is inherited by the component
  * @param {string} prefix component prefix, for example `$Component`
  * @returns {OriginalPageConfig}
  */

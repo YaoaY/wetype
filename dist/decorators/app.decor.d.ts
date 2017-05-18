@@ -6,7 +6,7 @@
  */
 import { wxLib } from '../../typings/wetype';
 import { wetype } from '../../typings/wetype.new';
-import { AppForExtendConstructor, AppForExtend } from '../lib/app';
+import { $AppConstructor, $App } from '../lib/app';
 /**
  * config for decoration for app
  *
@@ -15,7 +15,7 @@ import { AppForExtendConstructor, AppForExtend } from '../lib/app';
  * @extends {wetype.AppBaseEvents}
  */
 export interface OriginalAppConfig extends wetype.AppBaseEvents {
-    $app: AppForExtend;
+    $app: $App;
 }
 /**
  * decoration for App class
@@ -24,4 +24,4 @@ export interface OriginalAppConfig extends wetype.AppBaseEvents {
  * @param {wxLib.AppConfig} appConfig
  * @returns void
  */
-export declare function AppDecor(appConfig: wxLib.AppConfig): (AppConstructor: AppForExtendConstructor) => void;
+export declare function AppDecor(appConfig: wxLib.AppConfig): (AppConstructor: $AppConstructor) => void;

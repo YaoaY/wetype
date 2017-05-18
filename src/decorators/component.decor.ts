@@ -1,9 +1,9 @@
 import { wetype } from '../../typings/wetype.new'
 import { inNode } from '../lib/util'
-import { ComponentForExtendConstructor } from '../lib/component'
+import { $ComponentConstructor } from '../lib/component'
 
 export interface ComponentDecorOptions {
-    components?: ComponentForExtendConstructor[],
+    components?: $ComponentConstructor[],
     data?: wetype.ObjectLiteral,
     props?: any
 }
@@ -11,7 +11,7 @@ export interface ComponentDecorOptions {
 export function ComponentDecor(
     componentDecorOptions: ComponentDecorOptions
 ) {
-    return function (Constr: ComponentForExtendConstructor): ComponentForExtendConstructor {
+    return function (Constr: $ComponentConstructor): $ComponentConstructor {
         if (inNode) {
             return Constr
         }

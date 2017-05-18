@@ -6,8 +6,8 @@
  * @copyright open source
  */
 import { wetype } from '../../typings/wetype.new';
-import { PageForExtend, PageForExtendConstructor } from '../lib/page';
-import { ComponentForExtendConstructor } from '../lib/component';
+import { $Page, $PageConstructor } from '../lib/page';
+import { $ComponentConstructor } from '../lib/component';
 /**
  * config of decoration for page
  *
@@ -18,10 +18,10 @@ export interface PageDecorConfig {
     /**
      * array of components of the page
      *
-     * @type {ComponentForExtendConstructor[]}
+     * @type {$ComponentConstructor[]}
      * @memberof PageDecorConfig
      */
-    components?: ComponentForExtendConstructor[];
+    components?: $ComponentConstructor[];
     /**
      * native page config
      *
@@ -45,7 +45,7 @@ export interface PageDecorConfig {
  * @extends {wetype.PageBaseEvents}
  */
 export interface OriginalPageConfig extends wetype.PageBaseEvents {
-    $page: PageForExtend;
+    $page: $Page;
     data?: wetype.ObjectLiteral;
     [handlers: string]: any;
 }
@@ -56,4 +56,4 @@ export interface OriginalPageConfig extends wetype.PageBaseEvents {
  * @param {PageDecorConfig} pageDecorConfig
  * @returns
  */
-export declare function PageDecor(pageDecorConfig: PageDecorConfig): (PageConstructor: PageForExtendConstructor) => void;
+export declare function PageDecor(pageDecorConfig: PageDecorConfig): (PageConstructor: $PageConstructor) => void;

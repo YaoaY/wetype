@@ -1,7 +1,7 @@
-import { AppForExtend, PagesProperty } from './app'
+import { $App, PagesProperty } from './app'
 
 export class Context {
-    $instance: AppForExtend
+    $instance: $App
     $pages: PagesProperty
 }
 

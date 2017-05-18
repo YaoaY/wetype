@@ -10,8 +10,8 @@ import { wetype } from '../../typings/wetype.new'
 import { wt } from '../lib/wx'
 import { inNode } from '../lib/util'
 import { globalContext } from '../lib/context'
-import { PageForExtend, PageForExtendConstructor } from '../lib/page'
-import { ComponentForExtend, ComponentForExtendConstructor } from '../lib/component'
+import { $Page, $PageConstructor } from '../lib/page'
+import { $Component, $ComponentConstructor } from '../lib/component'
 import { sep } from '../lib/config'
 
 
@@ -25,10 +25,10 @@ export interface PageDecorConfig {
     /**
      * array of components of the page
      * 
-     * @type {ComponentForExtendConstructor[]}
+     * @type {$ComponentConstructor[]}
      * @memberof PageDecorConfig
      */
-    components?: ComponentForExtendConstructor[]
+    components?: $ComponentConstructor[]
     /**
      * native page config
      * 
@@ -53,7 +53,7 @@ export interface PageDecorConfig {
  * @extends {wetype.PageBaseEvents}
  */
 export interface OriginalPageConfig extends wetype.PageBaseEvents {
-    $page: PageForExtend
+    $page: $Page
     data?: wetype.ObjectLiteral
     [handlers: string]: any
 }
@@ -66,7 +66,7 @@ export interface OriginalPageConfig extends wetype.PageBaseEvents {
  * @returns 
  */
 export function PageDecor(pageDecorConfig: PageDecorConfig) {
-    return function(PageConstructor: PageForExtendConstructor) {
+    return function(PageConstructor: $PageConstructor) {
         if (inNode) {
             /**
              * expose page config for build use in NodeJS
@@ -132,15 +132,15 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
  * handle components recursively
  * 
  * @param {OriginalPageConfig} config config that is called by native Page()
- * @param {ComponentForExtend} comIns component instance, either Component or Page
- * @param {ComponentForExtendConstructor[]} components array of cunstructor of components that is inherited by the component
+ * @param {$Component} comIns component instance, either Component or Page
+ * @param {$ComponentConstructor[]} components array of cunstructor of components that is inherited by the component
  * @param {string} prefix component prefix, for example `$Component`
  * @returns {OriginalPageConfig}
  */
 function handleComponents (
     config: OriginalPageConfig,
-    comIns: ComponentForExtend,
-    components: ComponentForExtendConstructor[],
+    comIns: $Component,
+    components: $ComponentConstructor[],
     prefix: string
 ): OriginalPageConfig {
 
