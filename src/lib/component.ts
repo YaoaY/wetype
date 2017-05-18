@@ -12,7 +12,7 @@ export interface ComponentForExtendConstructor {
 export class ComponentForExtend {
     $root: AppForExtend
     $parent: AppForExtend | PageForExtend | ComponentForExtend
-    $com: {
+    $components: {
         [name: string]: ComponentForExtend
     } = {}
     $data: wetype.ObjectLiteral = {}
@@ -27,7 +27,7 @@ export class ComponentForExtend {
     // components: wetype.ObjectLiteral = {}
     methods: any = {}
 
-    init (wxPageCtx: wetype.OriginalPageContext, $root, $parent?) {
+    init(wxPageCtx: wetype.OriginalPageContext, $root, $parent?) {
         this.$wxPageContext = wxPageCtx
         if (this.$isComponent) {
             this.$root = $root || this.$root
@@ -39,22 +39,20 @@ export class ComponentForExtend {
             wxPageCtx.data = wxPageCtx.data || {}
             wxPageCtx.data[prefix] = this.$data[k]
             Object.defineProperty(this, k, {
-                set: (v) => wxPageCtx.setData({ [prefix]: v }), 
+                set: (v) => wxPageCtx.setData({ [prefix]: v }),
                 get: () => wxPageCtx.data![prefix]
             })
         })
 
-        let coms = Object.getOwnPropertyNames(this.$com)
-        coms &&
-            coms.forEach(comIns => {
-                let ins = this.$com[comIns]
-                ins.init(wxPageCtx, $root, this)
-                ins.onLoad && ins.onLoad.call(ins)
-            })
+        Object.getOwnPropertyNames(this.$components).forEach(comIns => {
+            let ins = this.$components[comIns]
+            ins.init(wxPageCtx, $root, this)
+            ins.onLoad && ins.onLoad.call(ins)
+        })
     }
 
-    onLoad () {
-        
+    onLoad() {
+
     }
 
 }

@@ -71,7 +71,7 @@ function handleComponents (
         prefix = prefix ? `${prefix}${Component.name}$` : `$${Component.name}$`
         ins.$name = Component.name
         ins.$data = Component.data || {}
-        comIns.$com[ins.$name] = ins
+        comIns.$components[ins.$name] = ins
         handleComponents(config, ins, Component.components || [], prefix)
     })
     Object.getOwnPropertyNames(comIns.constructor.prototype || []).forEach(prop => {
