@@ -11,6 +11,7 @@ const wx_1 = require("../lib/wx");
 const util_1 = require("../lib/util");
 const context_1 = require("../lib/context");
 const config_1 = require("../lib/config");
+const common_1 = require("./common");
 /**
  * decoration for every single page
  *
@@ -34,7 +35,7 @@ function PageDecor(pageDecorConfig) {
             // initialize config and assign $page
             let config = { $page: page };
             // assign initail data to page instance
-            page.$data = pageDecorConfig.data || {};
+            page.$data = common_1.getDataFromInstance(page);
             // assign this page to global context
             context_1.globalContext.$instance.$pages[PageConstructor.name] = page;
             // handle components, assign the return value to config
@@ -66,10 +67,6 @@ function PageDecor(pageDecorConfig) {
 }
 exports.PageDecor = PageDecor;
 /**
- * native pageEvents
- */
-// const pageEvent = ['onLoad', 'onReady', 'onShow', 'onHide', 'onUnload', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage'];
-/**
  * handle components recursively
  *
  * @param {OriginalPageConfig} config config that is called by native Page()
@@ -89,7 +86,7 @@ function handleComponents(config, comIns, components, prefix) {
         prefix = prefix ? `${prefix}${Component.name}${config_1.sep}` : `${config_1.sep}${Component.name}${config_1.sep}`;
         //assign $name and $data
         ins.$name = Component.name;
-        ins.$data = Component.data || {};
+        ins.$data = common_1.getDataFromInstance(ins);
         // assign this child component instance to its parent component
         comIns.$components[ins.$name] = ins;
         // recursively handle child components until there are no child components

@@ -29,13 +29,6 @@ export interface PageDecorConfig {
      * @memberof PageDecorConfig
      */
     pageConfig?: wetype.PageConifg;
-    /**
-     * initial page data
-     *
-     * @type {wetype.ObjectLiteral}
-     * @memberof PageDecorConfig
-     */
-    data?: wetype.ObjectLiteral;
 }
 /**
  * config that is called by native Page()

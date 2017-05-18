@@ -13,6 +13,7 @@ import { globalContext } from '../lib/context'
 import { $Page, $PageConstructor } from '../lib/page'
 import { $Component, $ComponentConstructor } from '../lib/component'
 import { sep } from '../lib/config'
+import { getDataFromInstance } from './common'
 
 
 /**
@@ -36,13 +37,6 @@ export interface PageDecorConfig {
      * @memberof PageDecorConfig
      */
     pageConfig?: wetype.PageConifg
-    /**
-     * initial page data
-     * 
-     * @type {wetype.ObjectLiteral}
-     * @memberof PageDecorConfig
-     */
-    data?: wetype.ObjectLiteral
 }
 
 /**
@@ -83,7 +77,7 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
             let config: OriginalPageConfig = { $page: page }
             
             // assign initail data to page instance
-            page.$data = pageDecorConfig.data || {}
+            page.$data = getDataFromInstance(page)
             
             // assign this page to global context
             globalContext.$instance.$pages[PageConstructor.name] = page
@@ -124,11 +118,6 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
 }
 
 /**
- * native pageEvents
- */
-// const pageEvent = ['onLoad', 'onReady', 'onShow', 'onHide', 'onUnload', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage'];
-
-/**
  * handle components recursively
  * 
  * @param {OriginalPageConfig} config config that is called by native Page()
@@ -158,7 +147,7 @@ function handleComponents (
 
         //assign $name and $data
         ins.$name = Component.name
-        ins.$data = Component.data || {}
+        ins.$data = getDataFromInstance(ins)
 
         // assign this child component instance to its parent component
         comIns.$components[ins.$name] = ins
