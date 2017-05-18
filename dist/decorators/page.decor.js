@@ -17,7 +17,7 @@ function PageDecor(pageDecorConfig) {
             config.data = pageDecorConfig.data;
             // handle components
             pageDecorConfig.components &&
-                (config = handleComponents(config, page, pageDecorConfig.components));
+                (config = handleComponents(config, page, pageDecorConfig.components, ''));
             config.onLoad = function (...args) {
                 page.$name = Constr.name;
                 page.init(this, context_1.globalContext.$instance);
@@ -39,15 +39,15 @@ function PageDecor(pageDecorConfig) {
 }
 exports.PageDecor = PageDecor;
 const pageEvent = ['onLoad', 'onReady', 'onShow', 'onHide', 'onUnload', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage'];
-function handleComponents(config, comIns, components) {
+function handleComponents(config, comIns, components, prefix) {
+    comIns.$prefix = prefix;
     components.forEach(Component => {
         let ins = new Component;
+        prefix = prefix ? `${prefix}${Component.name}$` : `$${Component.name}$`;
         ins.$name = Component.name;
         comIns.$com[ins.$name] = ins;
-        comIns.$prefix = comIns.$prefix ? `${comIns.$prefix}$${ins.$name}` : `$${comIns.constructor.name}`;
         comIns.data = Component.data || {};
-        Component.components &&
-            handleComponents(config, comIns, Component.components);
+        handleComponents(config, ins, Component.components || [], prefix);
     });
     Object.getOwnPropertyNames(comIns.constructor.prototype || []).forEach(prop => {
         if (prop !== 'constructor' && pageEvent.indexOf(prop) === -1) {

@@ -31,7 +31,7 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
 
             // handle components
             pageDecorConfig.components &&
-            (config = handleComponents(config, page, pageDecorConfig.components))
+            (config = handleComponents(config, page, pageDecorConfig.components, ''))
             
             config.onLoad = function (this: wetype.OriginalPageContext, ...args) {
                 page.$name = Constr.name
@@ -61,16 +61,17 @@ const pageEvent = ['onLoad', 'onReady', 'onShow', 'onHide', 'onUnload', 'onPullD
 function handleComponents (
     config: OriginalPageConfig,
     comIns: ComponentForExtend,
-    components: ComponentForExtendConstructor[]
+    components: ComponentForExtendConstructor[],
+    prefix: string
 ) {
+    comIns.$prefix = prefix
     components.forEach(Component => {
         let ins = new Component
+        prefix = prefix ? `${prefix}${Component.name}$` : `$${Component.name}$`
         ins.$name = Component.name
         comIns.$com[ins.$name] = ins
-        comIns.$prefix = comIns.$prefix ? `${comIns.$prefix}$${ins.$name}` : `$${comIns.constructor.name}`
         comIns.data = Component.data || {}
-        Component.components &&
-        handleComponents(config, comIns, Component.components)
+        handleComponents(config, ins, Component.components || [], prefix)
     })
     Object.getOwnPropertyNames(comIns.constructor.prototype || []).forEach(prop => {
         if (prop !== 'constructor' && pageEvent.indexOf(prop) === -1) {
