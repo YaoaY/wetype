@@ -15,7 +15,7 @@ export class ComponentForExtend {
     $com: {
         [name: string]: ComponentForExtend
     } = {}
-    $data
+    $data: wetype.ObjectLiteral = {}
     $name: string
     $wxAppContext: wetype.OriginalAppContext
     $wxPageContext: wetype.OriginalPageContext
@@ -25,7 +25,6 @@ export class ComponentForExtend {
 
     // properties that is extended in specified component
     // components: wetype.ObjectLiteral = {}
-    data: wetype.ObjectLiteral = {}
     methods: any = {}
 
     init (wxPageCtx: wetype.OriginalPageContext, $root, $parent?) {
@@ -35,10 +34,10 @@ export class ComponentForExtend {
             this.$parent = $parent || this.$root
         }
 
-        Object.keys(this.data).forEach(k => {
+        Object.keys(this.$data).forEach(k => {
             let prefix = `${this.$prefix}${k}`
             wxPageCtx.data = wxPageCtx.data || {}
-            wxPageCtx.data[prefix] = this.data[k]
+            wxPageCtx.data[prefix] = this.$data[k]
             Object.defineProperty(this, k, {
                 set: (v) => wxPageCtx.setData({ [prefix]: v }), 
                 get: () => wxPageCtx.data![prefix]

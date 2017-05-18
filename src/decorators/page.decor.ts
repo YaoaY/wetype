@@ -26,7 +26,7 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
         } else {
             let page = new Constr
             let config: OriginalPageConfig = { $page: page }
-            page.data = pageDecorConfig.data || {}
+            page.$data = pageDecorConfig.data || {}
             globalContext.$instance.$pages[Constr.name] = page
             config.data = pageDecorConfig.data
 
@@ -70,7 +70,7 @@ function handleComponents (
         let ins = new Component
         prefix = prefix ? `${prefix}${Component.name}$` : `$${Component.name}$`
         ins.$name = Component.name
-        ins.data = Component.data || {}
+        ins.$data = Component.data || {}
         comIns.$com[ins.$name] = ins
         handleComponents(config, ins, Component.components || [], prefix)
     })
