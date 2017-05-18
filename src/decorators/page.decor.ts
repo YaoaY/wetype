@@ -1,4 +1,5 @@
 /**
+ * page.decor.ts
  * this file exports Page decorator
  * 
  * @author Kai Shao
