@@ -1,6 +1,7 @@
 import { wetype } from '../../typings/wetype.new'
 import { $App } from './app'
 import { $Page } from './page'
+import xs from 'xstream'
 
 export interface $ComponentConstructor {
     new (): $Component
@@ -22,6 +23,7 @@ export class $Component {
     $isComponent: boolean = true
     $prefix: string = ''
     $wxapp
+    $xs = xs
 
     init(wxPageCtx: wetype.OriginalPageContext, $root, $parent?) {
         this.$wxPageContext = wxPageCtx
