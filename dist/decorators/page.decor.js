@@ -28,6 +28,8 @@ function PageDecor(pageDecorConfig) {
             pageDecorConfig.components = pageDecorConfig.components || [];
             PageConstructor.components = pageDecorConfig.components;
             PageConstructor.config = pageDecorConfig.pageConfig;
+            PageConstructor.template = pageDecorConfig.template;
+            PageConstructor.templateUrl = pageDecorConfig.templateUrl;
         }
         else {
             // instantiate Page Constructor

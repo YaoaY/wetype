@@ -29,6 +29,8 @@ export interface PageDecorConfig {
      * @memberof PageDecorConfig
      */
     pageConfig?: wetype.PageConifg;
+    template?: string;
+    templateUrl?: string;
 }
 /**
  * config that is called by native Page()

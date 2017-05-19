@@ -8,6 +8,8 @@ export interface $PageConstructor {
     new (): $Page
     components?: $ComponentConstructor[]
     config?: any
+    template?: string
+    templateUrl?: string
 }
 
 export class $Page extends $Component {

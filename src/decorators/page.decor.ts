@@ -37,6 +37,9 @@ export interface PageDecorConfig {
      * @memberof PageDecorConfig
      */
     pageConfig?: wetype.PageConifg
+
+    template?: string
+    templateUrl?: string
 }
 
 /**
@@ -68,6 +71,8 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
             pageDecorConfig.components = pageDecorConfig.components || []
             PageConstructor.components = pageDecorConfig.components
             PageConstructor.config = pageDecorConfig.pageConfig
+            PageConstructor.template = pageDecorConfig.template
+            PageConstructor.templateUrl = pageDecorConfig.templateUrl
         } else {
 
             // instantiate Page Constructor

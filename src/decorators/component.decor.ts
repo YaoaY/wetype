@@ -3,16 +3,20 @@ import { inNode } from '../lib/util'
 import { $ComponentConstructor } from '../lib/component'
 
 export interface ComponentDecorOptions {
-    components?: $ComponentConstructor[],
-    data?: wetype.ObjectLiteral,
+    templateUrl?: string
+    template?: string
+    components?: $ComponentConstructor[]
+    data?: wetype.ObjectLiteral
     props?: any
 }
 
 export function ComponentDecor(
-    componentDecorOptions: ComponentDecorOptions = {}
+    componentDecorOptions: ComponentDecorOptions
 ) {
     return function (Constr) {
         if (inNode) {
+            Constr.templateUrl = componentDecorOptions.templateUrl
+            Constr.template = componentDecorOptions.template
             return Constr
         }
         Constr.components = componentDecorOptions.components
