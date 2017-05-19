@@ -9,9 +9,9 @@ export interface ComponentDecorOptions {
 }
 
 export function ComponentDecor(
-    componentDecorOptions: ComponentDecorOptions
+    componentDecorOptions: ComponentDecorOptions = {}
 ) {
-    return function (Constr: $ComponentConstructor): $ComponentConstructor {
+    return function (Constr) {
         if (inNode) {
             return Constr
         }
