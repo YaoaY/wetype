@@ -29,7 +29,9 @@ export interface PageDecorConfig {
      * @type {$ComponentConstructor[]}
      * @memberof PageDecorConfig
      */
-    components?: $ComponentConstructor[]
+    components?: {
+        [componentName: string]: $ComponentConstructor
+    }
     /**
      * native page config
      * 
@@ -68,8 +70,8 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
             /**
              * expose page config for build use in NodeJS
              */
-            pageDecorConfig.components = pageDecorConfig.components || []
-            PageConstructor.components = pageDecorConfig.components
+            pageDecorConfig.components = pageDecorConfig.components || {}
+            // PageConstructor.components = pageDecorConfig.components
             PageConstructor.config = pageDecorConfig.pageConfig
             PageConstructor.template = pageDecorConfig.template
             PageConstructor.templateUrl = pageDecorConfig.templateUrl
@@ -88,7 +90,7 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
             globalContext.$instance.$pages[PageConstructor.name] = page
 
             // handle components, assign the return value to config
-            config = handleComponents(config, page, pageDecorConfig.components || [], `${sep}${PageConstructor.name}${sep}`)
+            config = handleComponents(config, page, pageDecorConfig.components || {}, `${sep}${PageConstructor.name}${sep}`)
 
             // rewrite the real onLoad event handler
             config.onLoad = function (this: wetype.OriginalPageContext, ...args) {
@@ -134,7 +136,9 @@ export function PageDecor(pageDecorConfig: PageDecorConfig) {
 function handleComponents(
     config: OriginalPageConfig,
     comIns: $Component,
-    components: $ComponentConstructor[],
+    components: {
+        [componentName: string]: $ComponentConstructor 
+    },
     prefix: string
 ): OriginalPageConfig {
 
@@ -142,23 +146,25 @@ function handleComponents(
     comIns.$prefix = prefix
 
     // iterate components inherited from parent component
-    components.forEach(Component => {
+    Object.keys(components).forEach(name => {
+
+        let Component = components[name]
 
         // instantiate each child component
         let ins = new Component
 
         // evalute prefix 
-        prefix = prefix ? `${prefix}${Component.name}${sep}` : `${sep}${Component.name}${sep}`
+        prefix = prefix ? `${prefix}${name}${sep}` : `${sep}${name}${sep}`
 
         //assign $name and $data
-        ins.$name = Component.name
+        ins.$name = name
         ins.$data = getDataFromInstance(ins)
 
         // assign this child component instance to its parent component
         comIns.$components[ins.$name] = ins
 
         // recursively handle child components until there are no child components
-        handleComponents(config, ins, Component.components || [], prefix)
+        handleComponents(config, ins, Component.components || {}, prefix)
     })
 
     // assign methods
